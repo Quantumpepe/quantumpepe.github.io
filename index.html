@@ -1,85 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QuantumPepe Presale</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://thirdweb.com/connect-wallet.js"></script>
-  <style>
-    body {
-      background-color: #004d00;
-      color: #ffffff;
-      font-family: 'Orbitron', sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-
-    .presale {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 10px;
-      margin: 20px auto;
-      width: 50%;
-      text-align: center;
-    }
-
-    .wallet-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .wallet-button {
-      width: 180px;
-      height: 45px;
-      font-size: 1.2em;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
-
-    #thirdwebWalletButton {
-      background: #007bff;
-      color: #fff;
-    }
-
-    #thirdwebWalletButton:hover {
-      background: #3399ff;
-    }
-
-    .stages {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .stage {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 10px;
-      width: 30%;
-      text-align: left;
-    }
-
-    .tokenomics {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 30px;
-      border-radius: 15px;
-      margin: 20px auto;
-      width: 80%;
-      text-align: center;
-    }
-
-    .tokenomics-chart {
-      width: 300px;
-      height: 300px;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://unpkg.com/@walletconnect/ethereum-provider@2.2.0/dist/index.umd.min.js"></script>
 </head>
 <body>
   <header>
@@ -90,97 +19,54 @@
     <section class="presale">
       <h2>Presale is live!</h2>
       <p>Connect your wallet and secure your QuantumPepe!</p>
-
-      <div class="wallet-buttons">
-        <button id="thirdwebWalletButton" class="wallet-button">Connect Wallet</button>
-      </div>
-
+      <button id="connectWallet" class="wallet-button">Connect Wallet</button>
       <div class="fund-info">
         <p>Total collected: <span id="total-collected">0</span> ETH</p>
         <p>Going to liquidity: <span id="liquidity-flow">0</span> ETH</p>
       </div>
+      <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
+    </section>
+    
+    <section class="stages">
+      <div class="stage"><h3>Stage 1</h3><ul><li>Presale</li><li>Liquidity/Safe</li><li>10,000 Holders</li></ul></div>
+      <div class="stage"><h3>Stage 2</h3><ul><li>DEX Exchange/Liquidity</li><li>Staking-Rewards 10%</li><li>25,000 Holders</li></ul></div>
+      <div class="stage"><h3>Stage 3</h3><ul><li>$150M Market Cap</li><li>Claim QuantumPepe</li><li>CEX Listings</li><li>50,000 Holders</li></ul></div>
     </section>
 
-    <section class="stages">
-      <div class="stage">
-        <h3>Stage 1</h3>
-        <ul>
-          <li>Presale</li>
-          <li>Liquidity/Safe</li>
-          <li>10,000 Holders</li>
-        </ul>
-      </div>
-      <div class="stage">
-        <h3>Stage 2</h3>
-        <ul>
-          <li>DEX Exchange/Liquidity</li>
-          <li>Staking-Rewards 10%</li>
-          <li>25,000 Holders</li>
-        </ul>
-      </div>
-      <div class="stage">
-        <h3>Stage 3</h3>
-        <ul>
-          <li>$150M Market Cap</li>
-          <li>Claim QuantumPepe</li>
-          <li>CEX Listings</li>
-          <li>50,000 Holders</li>
-        </ul>
-      </div>
+    <section id="purchaseSection">
+      <h2>Buy Tokens</h2>
+      <input type="text" id="buyAmount" placeholder="Amount in ETH" />
+      <select id="networkSelect">
+        <option value="1">Ethereum</option>
+        <option value="137">Polygon</option>
+        <option value="56">Binance Smart Chain</option>
+      </select>
+      <button id="buyTokensButton">Buy Tokens</button>
     </section>
 
     <section class="tokenomics">
       <h2>QuantumPepe Tokenomics</h2>
-      <div class="tokenomics-content">
-        <div class="tokenomics-info">
-          <ul>
-            <li>✔️ 45% Liquidity Pool</li>
-            <li>✔️ 25% Presale</li>
-            <li>✔️ 15% Reserve</li>
-            <li>✔️ 10% Team</li>
-            <li>✔️ 5% Marketing</li>
-          </ul>
-        </div>
-        <div class="tokenomics-chart">
-          <canvas id="tokenomicsChart"></canvas>
-        </div>
-      </div>
+      <canvas id="tokenomicsChart"></canvas>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2025 QuantumPepe. All rights reserved.</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <script>
-    const client = createThirdwebClient({
-      clientId: "e0f1f024ce8d4df131c2f82f2879adba"
-    });
-
-    let isConnecting = false;
-
-    async function connectThirdwebWallet() {
-      if (isConnecting) return;
-      isConnecting = true;
-
-      try {
-        const address = await client.wallet.connect();
-        console.log("✅ Wallet verbunden:", address);
-        alert("✅ Wallet erfolgreich verbunden: " + address);
-      } catch (error) {
-        console.error("❌ Wallet Verbindung fehlgeschlagen:", error);
-        alert("❌ Fehler beim Verbinden. Bitte versuche es erneut.");
-      } finally {
-        isConnecting = false;
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          await window.ethereum.request({ method: "eth_requestAccounts" });
+          alert("✅ Wallet verbunden!");
+        } catch (error) {
+          alert("❌ Wallet Verbindung fehlgeschlagen!");
+        }
+      } else {
+        alert("MetaMask nicht installiert!");
       }
     }
+    
+    document.getElementById("connectWallet").addEventListener("click", connectWallet);
 
-    document.getElementById("thirdwebWalletButton").addEventListener("click", connectThirdwebWallet);
-
-    const ctx = document.getElementById("tokenomicsChart").getContext("2d");
-    new Chart(ctx, {
+    new Chart(document.getElementById("tokenomicsChart"), {
       type: "doughnut",
       data: {
         labels: ["Liquidity Pool", "Presale", "Reserve", "Team", "Marketing"],
@@ -189,17 +75,7 @@
           backgroundColor: ["#28a745", "#007bff", "#ffca28", "#dc3545", "#6f42c1"]
         }]
       },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: "bottom",
-            labels: {
-              color: "#ffffff"
-            }
-          }
-        }
-      }
+      options: { responsive: true }
     });
   </script>
 </body>
