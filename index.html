@@ -6,7 +6,10 @@
   <title>QuantumPepe Presale</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    .tw-connect-button { display: none !important; } /* Extra Button ausblenden */
+    .tw-connect-button, .tw-wallet-connect-button {
+  display: none !important;
+}
+
   </style>
 </head>
 
@@ -187,7 +190,8 @@
 
 <script>
   // Thirdweb Client mit deiner Client ID initialisieren
-  const client = createThirdwebClient({
+  const client = thirdweb.createThirdwebClient({
+
     clientId: "e0f1f024ce8d4df131c2f82f2879adba", // Deine echte Client ID
   });
 
