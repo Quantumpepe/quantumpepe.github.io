@@ -1,169 +1,74 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QuantumPepe Presale</title>
-  <link rel="stylesheet" href="styles.css" />
-
-  <style>
-    /* Automatisch generierte Wallet-Buttons ausblenden */
-    iframe, 
-    .tw-connect-button, 
-    .tw-wallet-connect-button, 
-    button[data-testid="wallet-connect-button"], 
-    div[role="dialog"], 
-    button[aria-label="Connect Wallet"], 
-    div[class*="walletconnect"], 
-    button[class*="wallet"] {
-        display: none !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        width: 0 !important;
-        overflow: hidden !important;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumPepe Presale</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <header>
+        <h1 class="ai-title">QuantumPepe is here!</h1>
+    </header>
+    
+    <main>
+        <section class="presale">
+            <h2>Presale is live!</h2>
+            <p>Connect your wallet and secure your QuantumPepe!</p>
+            <div class="fund-info">
+                <p>Total collected: <span id="total-collected">0</span> ETH</p>
+                <p>Going to liquidity: <span id="liquidity-flow">0</span> ETH</p>
+            </div>
+            <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
+        </section>
 
-  <header>
-    <h1 class="ai-title">QuantumPepe is here!</h1>
-  </header>
+        <!-- Tokenomics-Bereich mit Diagramm -->
+        <section class="tokenomics">
+            <h2>QuantumPepe Tokenomics</h2>
+            <div class="tokenomics-content">
+                <div class="tokenomics-info">
+                    <ul>
+                        <li>✔️ 45% Liquidity Pool</li>
+                        <li>✔️ 25% Presale</li>
+                        <li>✔️ 15% Reserve</li>
+                        <li>✔️ 10% Team</li>
+                        <li>✔️ 5% Marketing</li>
+                    </ul>
+                </div>
+                <div class="tokenomics-chart">
+                    <canvas id="tokenomicsChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
 
-  <main>
-    <section class="presale">
-      <h2>Presale is live!</h2>
-      <p>Connect your wallet and secure your QuantumPepe!</p>
+    <footer>
+        <p>&copy; 2025 QuantumPepe. All rights reserved.</p>
+    </footer>
 
-      <!-- Neuer Wallet-Button -->
-      <div class="wallet-buttons">
-        <button onclick="connectThirdwebWallet()" class="wallet-button">Connect Wallet</button>
-      </div>
-
-      <div class="fund-info">
-        <p>Total collected: <span id="total-collected">0</span> ETH</p>
-        <p>Going to liquidity: <span id="liquidity-flow">0</span> ETH</p>
-      </div>
-
-      <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
-    </section>
-
-    <!-- Stages-Bereich -->
-    <section class="stages">
-      <div class="stage">
-        <h3>Stage 1</h3>
-        <ul>
-          <li>Presale</li>
-          <li>Liquidity/Safe</li>
-          <li>10,000 Holders</li>
-        </ul>
-      </div>
-      <div class="stage">
-        <h3>Stage 2</h3>
-        <ul>
-          <li>DEX Exchange/Liquidity</li>
-          <li>Staking-Rewards 10%</li>
-          <li>25,000 Holders</li>
-        </ul>
-      </div>
-      <div class="stage">
-        <h3>Stage 3</h3>
-        <ul>
-          <li>$150M Market Cap</li>
-          <li>Claim QuantumPepe</li>
-          <li>CEX Listings</li>
-          <li>50,000 Holders</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Tokenomics-Bereich -->
-    <section class="tokenomics">
-      <h2>QuantumPepe Tokenomics</h2>
-      <div class="tokenomics-content">
-        <div class="tokenomics-info">
-          <ul>
-            <li>✔️ 45% Liquidity Pool</li>
-            <li>✔️ 25% Presale</li>
-            <li>✔️ 15% Reserve</li>
-            <li>✔️ 10% Team</li>
-            <li>✔️ 5% Marketing</li>
-          </ul>
-        </div>
-        <div class="tokenomics-chart">
-          <canvas id="tokenomicsChart"></canvas>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 QuantumPepe. All rights reserved.</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://thirdweb.com/connect-wallet.js"></script>
-
-  <script>
-    // Thirdweb Client mit Client ID initialisieren
-    const client = thirdweb.connect({
-      clientId: "e0f1f024ce8d4df131c2f82f2879adba", // Deine echte Client ID
-    });
-
-    let isConnecting = false;
-
-    async function connectThirdwebWallet() {
-      if (isConnecting) return;
-      isConnecting = true;
-
-      try {
-        const address = await client.wallet.connect();
-        console.log("✅ Wallet verbunden:", address);
-        alert("✅ Wallet erfolgreich verbunden: " + address);
-      } catch (error) {
-        console.error("❌ Wallet Verbindung fehlgeschlagen:", error);
-        alert("❌ Fehler beim Verbinden. Bitte versuche es erneut.");
-      } finally {
-        isConnecting = false;
-      }
-    }
-
-    // Tokenomics-Diagramm mit Chart.js
-    const ctx = document.getElementById("tokenomicsChart").getContext("2d");
-    new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: ["Liquidity Pool", "Presale", "Reserve", "Team", "Marketing"],
-        datasets: [{
-          data: [45, 25, 15, 10, 5],
-          backgroundColor: ["#28a745", "#007bff", "#ffca28", "#dc3545", "#6f42c1"]
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: "bottom",
-            labels: { color: "#ffffff" }
-          }
-        }
-      }
-    });
-
-    // Automatisch generierte Buttons von Thirdweb entfernen
-    document.addEventListener("DOMContentLoaded", function() {
-      setTimeout(() => {
-        const autoButton = document.querySelector(".tw-connect-button, #walletConnectButton");
-        if (autoButton) {
-          autoButton.remove();
-          console.log("Automatisch generierter Button entfernt.");
-        } else {
-          console.log("Kein zusätzlicher Button gefunden.");
-        }
-      }, 1000);
-    });
-  </script>
-
+    <script>
+        // Tokenomics-Diagramm mit Chart.js
+        const ctx = document.getElementById("tokenomicsChart").getContext("2d");
+        new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Liquidity Pool", "Presale", "Reserve", "Team", "Marketing"],
+                datasets: [{
+                    data: [45, 25, 15, 10, 5],
+                    backgroundColor: ["#28a745", "#007bff", "#ffca28", "#dc3545", "#6f42c1"]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: { color: "#ffffff" }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
-
