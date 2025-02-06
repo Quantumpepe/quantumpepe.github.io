@@ -4,10 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QuantumPepe Presale</title>
-  <!-- Falls du keine externe CSS-Datei hast, kannst du den Link entfernen -->
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* Fallback-/Inline-CSS */
     body {
       background-color: #004d00;
       color: #ffffff;
@@ -29,15 +27,6 @@
       text-shadow: 0 0 10px #00ff00;
       margin-top: 20px;
     }
-    .presale {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 10px;
-      margin: 20px auto;
-      width: 50%;
-      text-align: center;
-    }
-    /* Styling der Wallet-Buttons */
     .wallet-buttons {
       display: flex;
       justify-content: center;
@@ -52,25 +41,11 @@
       border-radius: 8px;
       border: none;
       cursor: pointer;
-    }
-    #metamaskButton {
-      background: #00ff00;
-      color: #000;
-    }
-    #metamaskButton:hover {
-      background: #33ff33;
-    }
-    #walletConnectButton {
       background: #007bff;
       color: #fff;
     }
-    #walletConnectButton:hover {
+    .wallet-button:hover {
       background: #3399ff;
-    }
-    /* Die weiteren Styles aus deinem Originalcode */
-    .fund-info {
-      margin-top: 10px;
-      font-size: 1.1em;
     }
     .stages {
       display: flex;
@@ -94,27 +69,6 @@
       padding-left: 20px;
       line-height: 2em;
       font-size: 1.1em;
-    }
-    /* Bereich für den Token-Kauf */
-    #purchaseSection {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 10px;
-      margin: 20px auto;
-      width: 50%;
-      text-align: center;
-    }
-    #purchaseSection input,
-    #purchaseSection select {
-      font-size: 1em;
-      padding: 8px;
-      margin-right: 10px;
-      width: 150px;
-    }
-    #purchaseSection button {
-      font-size: 1em;
-      padding: 8px 16px;
-      cursor: pointer;
     }
     .tokenomics {
       background: rgba(0, 0, 0, 0.6);
@@ -144,12 +98,7 @@
     .tokenomics-chart {
       width: 300px;
       height: 300px;
-    }
-    footer {
-      margin-top: 20px;
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.6);
-      text-align: center;
+      margin: auto;
     }
   </style>
 </head>
@@ -159,22 +108,22 @@
   </header>
  
   <main>
-    <!-- Presale-Bereich -->
     <section class="presale">
       <h2>Presale is live!</h2>
       <p>Connect your wallet and secure your QuantumPepe!</p>
-      <!-- Zwei Buttons für MetaMask und WalletConnect -->
+
+      <!-- Neuer WalletConnect-Button mit Thirdweb -->
       <div class="wallet-buttons">
-        <button id="metamaskButton" class="wallet-button">Connect MetaMask</button>
-        <button id="walletConnectButton" class="wallet-button">Connect WalletConnect</button>
+        <button onclick="connectThirdwebWallet()" class="wallet-button">Connect Wallet</button>
       </div>
+
       <div class="fund-info">
         <p>Total collected: <span id="total-collected">0</span> ETH</p>
         <p>Going to liquidity: <span id="liquidity-flow">0</span> ETH</p>
       </div>
       <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
     </section>
-   
+
     <!-- Stages-Bereich -->
     <section class="stages">
       <div class="stage">
@@ -203,21 +152,7 @@
         </ul>
       </div>
     </section>
-   
-    <!-- Token-Kauf-Bereich -->
-    <section id="purchaseSection">
-      <h2>Buy Tokens</h2>
-      <p>Enter the amount in ETH to spend:</p>
-      <input type="text" id="buyAmount" placeholder="Amount in ETH" />
-      <p>Select Network:</p>
-      <select id="networkSelect">
-        <option value="1">Ethereum Mainnet</option>
-        <option value="137">Polygon (Matic)</option>
-        <option value="56">Binance Smart Chain</option>
-      </select>
-      <button id="buyTokensButton">Buy Tokens</button>
-    </section>
-   
+
     <!-- Tokenomics-Bereich -->
     <section class="tokenomics">
       <h2>QuantumPepe Tokenomics</h2>
@@ -237,103 +172,51 @@
       </div>
     </section>
   </main>
- 
+
   <footer>
     <p>&copy; 2025 QuantumPepe. All rights reserved.</p>
   </footer>
- 
+
   <!-- Thirdweb Connect Wallet SDK -->
-<script src="https://thirdweb.com/connect-wallet.js"></script>
+  <script src="https://thirdweb.com/connect-wallet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Connect Wallet Button -->
-<button onclick="connectThirdwebWallet()">Connect Wallet</button>
-
-<script>
-  async function connectThirdwebWallet() {
-    const address = await thirdweb.connect();
-    console.log("Wallet verbunden:", address);
-    alert("Wallet erfolgreich verbunden: " + address);
-  }
-</script>
-
-    // Mapping der Contract-Adressen pro Netzwerk
-    const contractAddresses = {
-      1: "0xE6Cf560B8bD1654fe6d4c3ba0C27D25C51edCBe2",  // Ersetze diesen Platzhalter mit deiner Ethereum-Adresse
-      137: "0x8cc0fC1678AF2C73D30D4f61ebc0783d49210BeD",   // Ersetze diesen Platzhalter mit deiner Polygon-Adresse
-      56: "0x1851778016C05e0d498bd38A8E9807c6c4Afb6BA"     // Ersetze diesen Platzhalter mit deiner BSC-Adresse
-    };
-
-    // Beispiel ABI deines Presale-Smart-Contracts
-    const contractABI = [
-      // Beispiel: Ersetze diesen Eintrag durch deine tatsächliche ABI
-      "function buyTokens() public payable"
-    ];
-
-    // Kauf-Funktion für Tokens
-    async function purchaseTokens() {
-      if (!currentProvider) {
-        alert("Bitte verbinde zuerst deine Wallet!");
-        return;
-      }
-     
+  <script>
+    async function connectThirdwebWallet() {
       try {
-        const ethersProvider = new ethers.providers.Web3Provider(await thirdweb.getProvider());
-        const signer = ethersProvider.getSigner();
-
-
-        // Erhalte Netzwerkinformationen (z. B. Chain-ID)
-        const network = await ethersProvider.getNetwork();
-        console.log("Aktuelles Netzwerk:", network);
-
-        // Hole die ausgewählte Chain-ID aus dem Dropdown
-        const selectedChainId = document.getElementById("networkSelect").value;
-        console.log("Ausgewähltes Netzwerk:", selectedChainId);
-
-        // Erhalte die richtige Contract-Adresse
-        const contractAddress = contractAddresses[selectedChainId];
-        if (!contractAddress) {
-          alert("Unsupported network. Please choose Ethereum, Polygon, or Binance Smart Chain.");
-          return;
-        }
-
-        // Erstelle den Contract
-        const contract = new ethers.Contract(contractAddress, contractABI, signer);
-
-        // Lese den Betrag aus dem Eingabefeld
-        const amount = document.getElementById("buyAmount").value;
-        if (!amount || isNaN(amount)) {
-          alert("Bitte gib einen gültigen Betrag in ETH ein.");
-          return;
-        }
-
-        // Sende die Transaktion an die Funktion buyTokens() im Smart Contract
-        const tx = await contract.buyTokens({ value: ethers.utils.parseEther(amount) });
-        alert("Transaktion gesendet. Warte auf Bestätigung...");
-        await tx.wait();
-        alert("Tokens erfolgreich gekauft!");
+        const address = await thirdweb.connect();
+        console.log("Wallet verbunden:", address);
+        alert("Wallet erfolgreich verbunden: " + address);
       } catch (error) {
-        console.error("Fehler beim Token-Kauf:", error);
-        alert("Token-Kauf fehlgeschlagen. Sieh in der Konsole nach Details.");
+        console.error("Wallet Verbindung fehlgeschlagen:", error);
+        alert("Fehler beim Verbinden. Bitte versuche es erneut.");
       }
     }
 
-    // Event-Listener für den "Buy Tokens"-Button
-    document.getElementById("buyTokensButton").addEventListener("click", purchaseTokens);
-
-    // Tokenomics-Diagramm initialisieren (falls Canvas vorhanden)
-    const ctx = document.getElementById("tokenomicsChart")?.getContext("2d");
-    if (ctx) {
-      new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: ["Liquidity Pool", "Presale", "Reserve", "Team", "Marketing"],
-          datasets: [{
-            data: [45, 25, 15, 10, 5],
-            backgroundColor: ["#28a745", "#007bff", "#ffca28", "#dc3545", "#6f42c1"]
-          }]
+    // Tokenomics-Diagramm mit Chart.js
+    const ctx = document.getElementById("tokenomicsChart").getContext("2d");
+    new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Liquidity Pool", "Presale", "Reserve", "Team", "Marketing"],
+        datasets: [{
+          data: [45, 25, 15, 10, 5],
+          backgroundColor: ["#28a745", "#007bff", "#ffca28", "#dc3545", "#6f42c1"]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: {
+              color: "#ffffff"
+            }
+          }
         }
-      });
-    }
+      }
+    });
   </script>
 </body>
 </html>
+
