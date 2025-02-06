@@ -182,14 +182,13 @@
   </footer>
 
   
- <!-- Thirdweb SDK -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://thirdweb.com/connect-wallet.js"></script>
 
 <script>
   // Thirdweb Client mit deiner Client ID initialisieren
-  const client = new thirdweb.createThirdwebClient({
-    clientId: "e01f1024ce8d4df131c2f82f2879adba", // Ersetze dies mit deiner echten Client ID!
+  const client = createThirdwebClient({
+    clientId: "e0f1f024ce8d4df131c2f82f2879adba", // Deine echte Client ID
   });
 
   let isConnecting = false;
@@ -199,10 +198,7 @@
     isConnecting = true;
 
     try {
-      const address = await thirdweb.connect({
-        client: client, // Nutze die Client ID hier
-      });
-
+      const address = await client.wallet.connect();
       console.log("✅ Wallet verbunden:", address);
       alert("✅ Wallet erfolgreich verbunden: " + address);
     } catch (error) {
@@ -213,11 +209,10 @@
     }
   }
 </script>
-
-
-
-
-   // Tokenomics-Diagramm mit Chart.js
+   
+  
+  
+  // Tokenomics-Diagramm mit Chart.js
     const ctx = document.getElementById("tokenomicsChart").getContext("2d");
     new Chart(ctx, {
       type: "doughnut",
