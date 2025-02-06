@@ -177,16 +177,19 @@
     <p>&copy; 2025 QuantumPepe. All rights reserved.</p>
   </footer>
 
-  <!-- Thirdweb Connect Wallet SDK -->
-  <script src="https://thirdweb.com/connect-wallet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script src="https://thirdweb.com/connect-wallet.js"></script>
+ <div class="wallet-buttons">
+  <button onclick="connectThirdwebWallet()" class="wallet-button">Connect Wallet</button>
+</div>
 
-  <script>
+<script>
   let isConnecting = false;
 
   async function connectThirdwebWallet() {
     if (isConnecting) return;
-    isConnecting = true; // Sperre aktivieren, damit Nutzer nicht mehrfach klicken können
+    isConnecting = true;
 
     try {
       const address = await thirdweb.connect();
@@ -196,10 +199,11 @@
       console.error("❌ Wallet Verbindung fehlgeschlagen:", error);
       alert("❌ Fehler beim Verbinden. Bitte versuche es erneut.");
     } finally {
-      isConnecting = false; // Sperre aufheben, damit wieder geklickt werden kann
+      isConnecting = false;
     }
   }
 </script>
+
    // Tokenomics-Diagramm mit Chart.js
     const ctx = document.getElementById("tokenomicsChart").getContext("2d");
     new Chart(ctx, {
