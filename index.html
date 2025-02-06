@@ -242,81 +242,19 @@
     <p>&copy; 2025 QuantumPepe. All rights reserved.</p>
   </footer>
  
-  <!-- Externe Skripte -->
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Ethers.js -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <!-- WalletConnect Provider v2 (Beta) -->
-  <script src="https://unpkg.com/@walletconnect/ethereum-provider@2.2.0/dist/index.umd.min.js"></script>
+  <!-- Thirdweb Connect Wallet SDK -->
+<script src="https://thirdweb.com/connect-wallet.js"></script>
 
-  <script>
-    // Globalen Provider speichern (MetaMask oder WalletConnect)
-    let currentProvider = null;
+<!-- Connect Wallet Button -->
+<button onclick="connectThirdwebWallet()">Connect Wallet</button>
 
-    // Statusanzeige
-    const statusEl = document.createElement("p");
-    statusEl.id = "status";
-    statusEl.style.marginTop = "10px";
-    document.body.insertBefore(statusEl, document.body.firstChild);
-
-    // MetaMask-Verbindung
-    async function connectMetaMask() {
-      if (window.ethereum) {
-        try {
-          await window.ethereum.request({ method: "eth_requestAccounts" });
-          currentProvider = window.ethereum;
-          const ethersProvider = new ethers.providers.Web3Provider(window.ethereum);
-          const signer = ethersProvider.getSigner();
-          const address = await signer.getAddress();
-          statusEl.textContent = "MetaMask verbunden: " + address;
-        } catch (error) {
-          console.error("MetaMask Verbindung fehlgeschlagen:", error);
-          statusEl.textContent = "MetaMask Verbindung fehlgeschlagen.";
-        }
-      } else {
-        statusEl.textContent = "MetaMask nicht gefunden. Bitte installiere MetaMask.";
-      }
-    }
-
-    // WalletConnect V2-Verbindung
-    async function connectWalletConnect() {
-      try {
-        // Zugriff auf den globalen WalletConnectProvider (V2)
-        const WCProvider = window.WalletConnectProvider?.default || window.WalletConnectProvider;
-
-        // Erstelle eine neue Instanz mit den notwendigen Parametern
-        const walletConnectProvider = new WCProvider({
-          projectId: "a6b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6", // Test-ID, wie du sie nutzt
-          relayUrl: "wss://relay.walletconnect.com",
-          chains: [1, 137, 56], // Unterstützte Netzwerke
-          metadata: {
-            name: "QuantumPepe Presale",
-            description: "Connect your wallet to buy QuantumPepe tokens",
-            url: "https://yourdapp.com",       // Passe diese URL an
-            icons: ["https://yourdapp.com/logo.png"] // Passe diese URL an
-          }
-        });
-       
-        // V2 verwendet in der Regel die connect()-Methode statt enable()
-        await walletConnectProvider.connect();
-
-        // Setze den aktuellen Provider
-        currentProvider = walletConnectProvider;
-
-        const ethersProvider = new ethers.providers.Web3Provider(walletConnectProvider);
-        const signer = ethersProvider.getSigner();
-        const address = await signer.getAddress();
-        statusEl.textContent = "WalletConnect verbunden: " + address;
-      } catch (error) {
-        console.error("WalletConnect Verbindung fehlgeschlagen:", error);
-        statusEl.textContent = "WalletConnect Verbindung fehlgeschlagen.";
-      }
-    }
-
-    // Event-Listener der Wallet-Buttons
-    document.getElementById("metamaskButton").addEventListener("click", connectMetaMask);
-    document.getElementById("walletConnectButton").addEventListener("click", connectWalletConnect);
+<script>
+  async function connectThirdwebWallet() {
+    const address = await thirdweb.connect();
+    console.log("Wallet verbunden:", address);
+    alert("Wallet erfolgreich verbunden: " + address);
+  }
+</script>
 
     // Mapping der Contract-Adressen pro Netzwerk
     const contractAddresses = {
@@ -339,8 +277,9 @@
       }
      
       try {
-        const ethersProvider = new ethers.providers.Web3Provider(currentProvider);
+        const ethersProvider = new ethers.providers.Web3Provider(await thirdweb.getProvider());
         const signer = ethersProvider.getSigner();
+
 
         // Erhalte Netzwerkinformationen (z. B. Chain-ID)
         const network = await ethersProvider.getNetwork();
