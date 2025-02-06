@@ -4,15 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QuantumPepe Presale</title>
- <link rel="stylesheet" href="styles.css?v=1.1">
-<script src="https://thirdweb.com/connect-wallet.js?v=1.1"></script>
-
-
-
+  <link rel="stylesheet" href="styles.css" />
 
   <style>
-    .tw-connect-button, .tw-wallet-connect-button { display: none !important; } 
-    /* Verstecke Thirdweb/WalletConnect Auto-Button */
+    /* Automatisch generierte Wallet-Buttons ausblenden */
     iframe, 
     .tw-connect-button, 
     .tw-wallet-connect-button, 
@@ -27,8 +22,7 @@
         width: 0 !important;
         overflow: hidden !important;
     }
-</style>
-
+  </style>
 </head>
 <body>
 
@@ -41,11 +35,16 @@
       <h2>Presale is live!</h2>
       <p>Connect your wallet and secure your QuantumPepe!</p>
 
-      
+      <!-- Neuer Wallet-Button -->
+      <div class="wallet-buttons">
+        <button onclick="connectThirdwebWallet()" class="wallet-button">Connect Wallet</button>
+      </div>
+
       <div class="fund-info">
         <p>Total collected: <span id="total-collected">0</span> ETH</p>
         <p>Going to liquidity: <span id="liquidity-flow">0</span> ETH</p>
       </div>
+
       <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
     </section>
 
@@ -106,7 +105,10 @@
   <script src="https://thirdweb.com/connect-wallet.js"></script>
 
   <script>
-    const client = new thirdweb.ThirdwebSDK("e0f1f024ce8d4df131c2f82f2879adba");
+    // Thirdweb Client mit Client ID initialisieren
+    const client = thirdweb.connect({
+      clientId: "e0f1f024ce8d4df131c2f82f2879adba", // Deine echte Client ID
+    });
 
     let isConnecting = false;
 
@@ -147,34 +149,20 @@
         }
       }
     });
+
+    // Automatisch generierte Buttons von Thirdweb entfernen
     document.addEventListener("DOMContentLoaded", function() {
-     setTimeout(() => {
-       document.querySelectorAll("button, div[role='dialog']").forEach(el => {
-         if (el.innerText.includes("Connect MetaMask") || el.innerText.includes("WalletConnect")) {
-         el.remove();
-        console.log("Entfernt: " + el.innerText);
-      }
+      setTimeout(() => {
+        const autoButton = document.querySelector(".tw-connect-button, #walletConnectButton");
+        if (autoButton) {
+          autoButton.remove();
+          console.log("Automatisch generierter Button entfernt.");
+        } else {
+          console.log("Kein zusätzlicher Button gefunden.");
+        }
+      }, 1000);
     });
-  }, 1000);
-});
-
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    setTimeout(() => {
-      const autoButtons = document.querySelectorAll(".tw-connect-button, .tw-wallet-connect-button, button[data-testid='wallet-connect-button'], div[role='dialog'], button[aria-label='Connect Wallet'], div[class*='walletconnect'], button[class*='wallet']");
-      
-      autoButtons.forEach(button => {
-        button.remove();
-        console.log("Automatisch generierter Button entfernt:", button);
-      });
-
-      if (autoButtons.length === 0) {
-        console.log("Kein zusätzlicher Button gefunden.");
-      }
-    }, 1500); // 1,5 Sekunden warten, damit Thirdweb den Button generiert
-  });
-</script>
+  </script>
 
 </body>
 </html>
