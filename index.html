@@ -186,16 +186,19 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    // Suche nach dem automatisch generierten Thirdweb-Button
-    const extraButton = document.querySelector(".tw-connect-button");
-    
-    // Falls der Button existiert, entferne ihn
-    if (extraButton) {
-      extraButton.remove();
-      console.log("🚀 Extra Thirdweb-Button entfernt!");
-    }
+    // Suche nach allen automatisch generierten Buttons von Thirdweb
+    const extraButtons = document.querySelectorAll(".tw-connect-button, .wallet-buttons button");
+
+    // Falls mehrere Buttons existieren, entferne alle außer den ersten
+    extraButtons.forEach((button, index) => {
+      if (index > 0) {
+        button.remove();
+        console.log("🚀 Extra Thirdweb-Button entfernt!");
+      }
+    });
   });
 </script>
+
 
 
    // Tokenomics-Diagramm mit Chart.js
