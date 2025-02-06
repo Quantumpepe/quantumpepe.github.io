@@ -6,6 +6,13 @@ body {
   margin: 0;
   padding: 0;
 }
+button[aria-label="Connect Wallet"] {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
 
 .wallet-button {
   width: 180px;
