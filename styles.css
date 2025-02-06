@@ -1,2 +1,25 @@
-<link rel="stylesheet" href="styles.css">
+body {
+  background-color: #004d00;
+  color: #ffffff;
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.wallet-button {
+  width: 180px;
+  height: 45px;
+  font-size: 1.2em;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #007bff;
+  color: #fff;
+}
+
+.wallet-button:hover {
+  background: #3399ff;
+}
+
 
