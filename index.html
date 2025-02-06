@@ -156,6 +156,22 @@
 });
 
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(() => {
+      const autoButtons = document.querySelectorAll(".tw-connect-button, .tw-wallet-connect-button, button[data-testid='wallet-connect-button'], div[role='dialog'], button[aria-label='Connect Wallet'], div[class*='walletconnect'], button[class*='wallet']");
+      
+      autoButtons.forEach(button => {
+        button.remove();
+        console.log("Automatisch generierter Button entfernt:", button);
+      });
+
+      if (autoButtons.length === 0) {
+        console.log("Kein zusätzlicher Button gefunden.");
+      }
+    }, 1500); // 1,5 Sekunden warten, damit Thirdweb den Button generiert
+  });
+</script>
 
 </body>
 </html>
