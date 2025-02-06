@@ -151,7 +151,19 @@ button[class*="wallet"] {
         }
       }
     });
-  </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(() => {
+      const autoButton = document.querySelector(".tw-connect-button, #walletConnectButton");
+      if (autoButton) {
+        autoButton.remove();
+        console.log("Automatisch generierter Button entfernt.");
+      } else {
+        console.log("Kein zusätzlicher Button gefunden.");
+      }
+    }, 1000); // 1 Sekunde warten, damit Thirdweb den Button generiert
+  });
+</script>
 
 </body>
 </html>
