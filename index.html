@@ -184,20 +184,36 @@
   
  <!-- Thirdweb SDK -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Suche nach allen automatisch generierten Buttons von Thirdweb
-    const extraButtons = document.querySelectorAll(".tw-connect-button, .wallet-buttons button");
+<script src="https://thirdweb.com/connect-wallet.js"></script>
 
-    // Falls mehrere Buttons existieren, entferne alle außer den ersten
-    extraButtons.forEach((button, index) => {
-      if (index > 0) {
-        button.remove();
-        console.log("🚀 Extra Thirdweb-Button entfernt!");
-      }
-    });
+<script>
+  // Thirdweb Client mit deiner Client ID initialisieren
+  const client = new thirdweb.createThirdwebClient({
+    clientId: "e01f1024ce8d4df131c2f82f2879adba", // Ersetze dies mit deiner echten Client ID!
   });
+
+  let isConnecting = false;
+
+  async function connectThirdwebWallet() {
+    if (isConnecting) return;
+    isConnecting = true;
+
+    try {
+      const address = await thirdweb.connect({
+        client: client, // Nutze die Client ID hier
+      });
+
+      console.log("✅ Wallet verbunden:", address);
+      alert("✅ Wallet erfolgreich verbunden: " + address);
+    } catch (error) {
+      console.error("❌ Wallet Verbindung fehlgeschlagen:", error);
+      alert("❌ Fehler beim Verbinden. Bitte versuche es erneut.");
+    } finally {
+      isConnecting = false;
+    }
+  }
 </script>
+
 
 
 
