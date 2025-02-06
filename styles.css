@@ -1,0 +1,173 @@
+/* styles.css */
+
+/* Grundlegendes Styling */
+body {
+  background-color: #004d00;
+  color: #ffffff;
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.pepe-logo {
+  width: 160px;
+  height: auto;
+  position: absolute;
+  right: 50px;
+  top: 170px;
+  z-index: 10;
+}
+
+.ai-title {
+  font-size: 3em;
+  text-shadow: 0 0 10px #00ff00;
+  margin-top: 20px;
+}
+
+/* Presale-Bereich */
+.presale {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  width: 50%;
+  text-align: center;
+}
+
+/* Styling der Wallet-Buttons */
+.wallet-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.wallet-button {
+  width: 180px;
+  height: 45px;
+  font-size: 1.2em;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+#metamaskButton {
+  background: #00ff00;
+  color: #000;
+}
+
+#metamaskButton:hover {
+  background: #33ff33;
+}
+
+#walletConnectButton {
+  background: #007bff;
+  color: #fff;
+}
+
+#walletConnectButton:hover {
+  background: #3399ff;
+}
+
+/* Weitere Styles */
+.fund-info {
+  margin-top: 10px;
+  font-size: 1.1em;
+}
+
+.stages {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stage {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  width: 30%;
+  text-align: left;
+}
+
+.stage h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.stage ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  line-height: 2em;
+  font-size: 1.1em;
+}
+
+/* Token-Kauf-Bereich */
+#purchaseSection {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  width: 50%;
+  text-align: center;
+}
+
+#purchaseSection input,
+#purchaseSection select {
+  font-size: 1em;
+  padding: 8px;
+  margin-right: 10px;
+  width: 150px;
+}
+
+#purchaseSection button {
+  font-size: 1em;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+/* Tokenomics-Bereich */
+.tokenomics {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 15px;
+  margin: 20px auto;
+  width: 80%;
+  text-align: center;
+}
+
+.tokenomics h2 {
+  text-shadow: 0 0 10px #00ff00;
+}
+
+.tokenomics-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tokenomics-info ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.tokenomics-info li {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.tokenomics-chart {
+  width: 300px;
+  height: 300px;
+}
+
+/* Footer */
+footer {
+  margin-top: 20px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
