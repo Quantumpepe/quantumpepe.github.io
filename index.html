@@ -8,7 +8,8 @@
 
 
   <style>
-    .tw-connect-button, .tw-wallet-connect-button { display: none !important; } /* Auto-Button ausblenden */
+    .tw-connect-button, .tw-wallet-connect-button { display: none !important; } 
+
   </style>
 </head>
 <body>
@@ -22,11 +23,7 @@
       <h2>Presale is live!</h2>
       <p>Connect your wallet and secure your QuantumPepe!</p>
 
-      <!-- Neuer WalletConnect-Button mit Thirdweb -->
-      <div class="wallet-buttons">
-        <button onclick="connectThirdwebWallet()" class="wallet-button">Connect Wallet</button>
-      </div>
-
+      
       <div class="fund-info">
         <p>Total collected: <span id="total-collected">0</span> ETH</p>
         <p>Going to liquidity: <span id="liquidity-flow">0</span> ETH</p>
@@ -92,9 +89,10 @@
 
   <script>
     // Thirdweb Client mit Client ID initialisieren
-    const client = thirdweb.createThirdwebClient({
-      clientId: "e0f1f024ce8d4df131c2f82f2879adba", // Deine echte Client ID
-    });
+    const client = thirdweb.connect({
+  clientId: "e0f1f024ce8d4df131c2f82f2879adba", // Deine echte Client ID
+});
+
 
     let isConnecting = false;
 
