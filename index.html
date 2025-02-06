@@ -182,18 +182,25 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
-    async function connectThirdwebWallet() {
-      try {
-        const address = await thirdweb.connect();
-        console.log("Wallet verbunden:", address);
-        alert("Wallet erfolgreich verbunden: " + address);
-      } catch (error) {
-        console.error("Wallet Verbindung fehlgeschlagen:", error);
-        alert("Fehler beim Verbinden. Bitte versuche es erneut.");
-      }
-    }
+  let isConnecting = false;
 
-    // Tokenomics-Diagramm mit Chart.js
+  async function connectThirdwebWallet() {
+    if (isConnecting) return;
+    isConnecting = true; // Sperre aktivieren, damit Nutzer nicht mehrfach klicken können
+
+    try {
+      const address = await thirdweb.connect();
+      console.log("✅ Wallet verbunden:", address);
+      alert("✅ Wallet erfolgreich verbunden: " + address);
+    } catch (error) {
+      console.error("❌ Wallet Verbindung fehlgeschlagen:", error);
+      alert("❌ Fehler beim Verbinden. Bitte versuche es erneut.");
+    } finally {
+      isConnecting = false; // Sperre aufheben, damit wieder geklickt werden kann
+    }
+  }
+</script>
+   // Tokenomics-Diagramm mit Chart.js
     const ctx = document.getElementById("tokenomicsChart").getContext("2d");
     new Chart(ctx, {
       type: "doughnut",
