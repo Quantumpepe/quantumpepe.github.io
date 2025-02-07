@@ -1,0 +1,17 @@
+{
+  "name": "quantumpepe",
+  "version": "1.0.0",
+  "homepage": "https://quantumpepe.github.io/QuantumPepe",
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@thirdweb-dev/react": "^3.0.0",
+    "gh-pages": "^5.0.0"
+  },
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  }
+}
