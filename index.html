@@ -12,8 +12,8 @@
       position: fixed;
       top: 10px;
       left: 10px;
-      width: 300px;         
-      max-height: 300px;    
+      width: 300px;
+      max-height: 300px;
       background: rgba(0, 0, 0, 0.8);
       padding: 10px;
       border: 1px solid #fff;
@@ -29,7 +29,7 @@
       font-size: 1.3em;
       margin-bottom: 10px;
     }
-    
+
     /* Mobile hint for MetaMask users */
     #mobile-hint {
       display: none;
@@ -202,6 +202,17 @@
 
     /* Media Queries for mobile */
     @media (max-width: 768px) {
+      /* Der Contest-Container soll nicht mehr fixed sein, 
+         damit er sich in den normalen Seitenfluss einfügt */
+      #contest-info {
+        position: static;         /* Kein "fixed" mehr */
+        width: 90%;               /* Breiter */
+        margin: 10px auto;        /* Zentriert */
+        left: auto;               /* Rücksetzen */
+        top: auto;                /* Rücksetzen */
+        max-height: none;         /* Keine fixe Höhe */
+      }
+
       .presale, #purchaseSection {
         width: 90%;
       }
@@ -211,11 +222,6 @@
       .stage {
         width: 90%;
         margin-bottom: 20px;
-      }
-      #contest-info {
-        width: 90%;
-        max-height: none;
-        left: 5%;
       }
       .ai-title {
         font-size: 2em;
@@ -228,16 +234,19 @@
       #mobile-hint {
         display: block;
       }
+      .pepe-logo {
+        display: none; /* Wenn das Logo zu viel Platz einnimmt, kann man es ausblenden */
+      }
     }
   </style>
 </head>
 <body>
   <!-- Mobile hint for MetaMask users -->
   <div id="mobile-hint">
-    For proper wallet interaction, please open this site within the MetaMask in-app browser.
+    For proper wallet interaction on mobile, please open this site within the MetaMask in-app browser.
   </div>
   
-  <!-- Contest Info (top-left) -->
+  <!-- Contest Info -->
   <div id="contest-info">
     <h3>Contest</h3>
     <p>
