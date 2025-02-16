@@ -7,7 +7,7 @@
   <!-- External CSS (optional) -->
   <link rel="stylesheet" href="styles.css"/>
   <style>
-    /* Contest Info (top-left, fixed, scrollable) */
+    /* Contest Info (originally fixed, top-left) */
     #contest-info {
       position: fixed;
       top: 10px;
@@ -202,20 +202,21 @@
 
     /* Media Queries for mobile */
     @media (max-width: 768px) {
-      /* Der Contest-Container soll nicht mehr fixed sein, 
-         damit er sich in den normalen Seitenfluss einfügt */
+      /* The Contest-Container is no longer fixed, 
+         so it won't overlap content. */
       #contest-info {
-        position: static;         /* Kein "fixed" mehr */
-        width: 90%;               /* Breiter */
-        margin: 10px auto;        /* Zentriert */
-        left: auto;               /* Rücksetzen */
-        top: auto;                /* Rücksetzen */
-        max-height: none;         /* Keine fixe Höhe */
+        position: static;
+        width: 90%;
+        margin: 10px auto;
+        left: auto;
+        top: auto;
+        max-height: none;
       }
 
       .presale, #purchaseSection {
         width: 90%;
       }
+
       .stages {
         flex-direction: column;
       }
@@ -235,7 +236,23 @@
         display: block;
       }
       .pepe-logo {
-        display: none; /* Wenn das Logo zu viel Platz einnimmt, kann man es ausblenden */
+        display: none; /* Hide the logo on small screens if it overlaps */
+      }
+
+      /* Tokenomics on mobile */
+      .tokenomics-content {
+        flex-direction: column;       /* Stack vertically */
+        align-items: center;          /* Center them */
+      }
+      .tokenomics-info,
+      .tokenomics-chart {
+        width: 100%;                  /* Full width */
+        margin-bottom: 20px;          /* Spacing below each */
+      }
+      /* Optional: limit the chart size */
+      .tokenomics-chart canvas {
+        max-width: 280px;
+        max-height: 280px;
       }
     }
   </style>
@@ -521,3 +538,4 @@
   </script>
 </body>
 </html>
+
