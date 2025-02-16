@@ -22,12 +22,23 @@
       font-size: 0.9em;
       z-index: 1000;
     }
-    /* Überschrift im Contest-Info-Feld */
+    /* Contest heading */
     #contest-info h3 {
       color: #00ff00;
       text-shadow: 0 0 10px #00ff00;
       font-size: 1.3em;
       margin-bottom: 10px;
+    }
+    
+    /* Mobile hint for MetaMask users */
+    #mobile-hint {
+      display: none;
+      background: rgba(255,255,0,0.2);
+      color: #000;
+      padding: 5px;
+      margin: 10px;
+      border-radius: 5px;
+      font-size: 0.9em;
     }
 
     /* Body styles */
@@ -45,7 +56,7 @@
       font-size: 3em;
       text-shadow: 0 0 10px #00ff00;
       margin-top: 20px;
-      color: #00ff00;  
+      color: #00ff00;
     }
 
     /* Pepe logo (right side) */
@@ -64,7 +75,7 @@
       padding: 20px;
       border-radius: 10px;
       margin: 20px auto;
-      width: 40%; 
+      width: 40%;
       text-align: center;
     }
 
@@ -134,7 +145,7 @@
       padding: 20px;
       border-radius: 10px;
       margin: 20px auto;
-      width: 40%; 
+      width: 40%;
       text-align: center;
     }
     #purchaseSection input,
@@ -188,20 +199,54 @@
       background: rgba(0, 0, 0, 0.6);
       text-align: center;
     }
+
+    /* Media Queries for mobile */
+    @media (max-width: 768px) {
+      .presale, #purchaseSection {
+        width: 90%;
+      }
+      .stages {
+        flex-direction: column;
+      }
+      .stage {
+        width: 90%;
+        margin-bottom: 20px;
+      }
+      #contest-info {
+        width: 90%;
+        max-height: none;
+        left: 5%;
+      }
+      .ai-title {
+        font-size: 2em;
+      }
+      .wallet-button {
+        width: 150px;
+        height: 40px;
+        font-size: 1em;
+      }
+      #mobile-hint {
+        display: block;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Mobile hint for MetaMask users -->
+  <div id="mobile-hint">
+    For proper wallet interaction, please open this site within the MetaMask in-app browser.
+  </div>
+  
   <!-- Contest Info (top-left) -->
   <div id="contest-info">
     <h3>Contest</h3>
     <p>
       The contest starts now, during the presale!<br>
-      However, the rewards will be distributed<br>
-      only after the presale ends and the DEX pools are created.
+      However, rewards will be distributed only after the presale ends<br>
+      and the DEX pools are created.
     </p>
     <p>
-      The team that best promotes QuantumPepe<br>
-      and builds a strong community wins:
+      The team that best promotes QuantumPepe and builds a strong community wins:
     </p>
     <ul style="text-align: left; padding-left: 15px;">
       <li>1st place: 2.5B QPEPE Tokens</li>
@@ -467,7 +512,3 @@
   </script>
 </body>
 </html>
-
-
-
-
