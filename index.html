@@ -168,9 +168,10 @@
         <button id="metamaskButton" class="wallet-button">Connect MetaMask</button>
       </div>
       <div class="fund-info">
-        <!-- Hier wird dynamisch der eingesammelte Betrag in ETH und USD angezeigt -->
+        <!-- Anzeige der gesammelten Mittel in ETH und USD -->
         <p>Total collected: <span id="total-collected">0</span></p>
-        <p>Going to liquidity: <span id="liquidity-flow">0</span> ETH</p>
+        <!-- Hier wird nun auch der Liquiditätsanteil (85%) in ETH und USD angezeigt -->
+        <p>Going to liquidity (85%): <span id="liquidity-flow">0</span></p>
       </div>
       <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
     </section>
@@ -325,8 +326,13 @@
         // Umrechnung in USD
         const ethPriceUSD = await getETHPriceInUSD();
         const totalCollectedUSD = (parseFloat(totalCollectedEth) * ethPriceUSD).toFixed(2);
-
+        
+        // Berechne 85% des Total Collected, die in die Liquidität fließen
+        const liquidityFlowEth = parseFloat(totalCollectedEth) * 0.85;
+        const liquidityFlowUSD = (liquidityFlowEth * ethPriceUSD).toFixed(2);
+        
         document.getElementById("total-collected").textContent = `${totalCollectedEth} ETH (~$${totalCollectedUSD})`;
+        document.getElementById("liquidity-flow").textContent = `${liquidityFlowEth.toFixed(4)} ETH (~$${liquidityFlowUSD})`;
       } catch (error) {
         console.error("Fehler beim Aktualisieren der Presale-Fonds:", error);
       }
@@ -402,5 +408,6 @@
   </script>
 </body>
 </html>
+
 
 
