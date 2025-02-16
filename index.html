@@ -65,6 +65,11 @@
       margin-top: 10px;
       font-size: 1.1em;
     }
+    .token-price {
+      margin-top: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
     .stages {
       display: flex;
       justify-content: center;
@@ -156,12 +161,15 @@
     <section class="presale">
       <h2>Presale is live!</h2>
       <p>Connect your wallet and secure your QuantumPepe!</p>
+      <!-- Anzeige des Token-Preises in USD -->
+      <p class="token-price">Token Price: $0.0001 per Token</p>
       <!-- Nur ein Button für MetaMask -->
       <div class="wallet-buttons">
         <button id="metamaskButton" class="wallet-button">Connect MetaMask</button>
       </div>
       <div class="fund-info">
-        <p>Total collected: <span id="total-collected">0</span> ETH</p>
+        <!-- Hier wird dynamisch der eingesammelte Betrag in ETH und USD angezeigt -->
+        <p>Total collected: <span id="total-collected">0</span></p>
         <p>Going to liquidity: <span id="liquidity-flow">0</span> ETH</p>
       </div>
       <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
@@ -219,8 +227,8 @@
             <li>✔️ 40% Liquidity Pool</li>
             <li>✔️ 35% Presale</li>
             <li>✔️ 22% Staking/Rewards</li>
-            <li>✔️  3% Team</li>
-            </ul>
+            <li>✔️ 3% Team</li>
+          </ul>
         </div>
         <div class="tokenomics-chart">
           <canvas id="tokenomicsChart"></canvas>
@@ -243,13 +251,13 @@
     // Globalen Provider speichern (MetaMask)
     let currentProvider = null;
 
-    // Statusanzeige
+    // Statusanzeige einfügen
     const statusEl = document.createElement("p");
     statusEl.id = "status";
     statusEl.style.marginTop = "10px";
     document.body.insertBefore(statusEl, document.body.firstChild);
 
-    // MetaMask-Verbindung
+    // MetaMask-Verbindung herstellen
     async function connectMetaMask() {
       if (window.ethereum) {
         try {
@@ -259,6 +267,8 @@
           const signer = ethersProvider.getSigner();
           const address = await signer.getAddress();
           statusEl.textContent = "MetaMask verbunden: " + address;
+          // Nach erfolgreicher Verbindung die Presale-Mittel aktualisieren
+          updatePresaleFunds();
         } catch (error) {
           console.error("MetaMask Verbindung fehlgeschlagen:", error);
           statusEl.textContent = "MetaMask Verbindung fehlgeschlagen.";
@@ -279,9 +289,48 @@
     };
 
     // Beispiel ABI deines Presale-Smart-Contracts
+    // Wichtig: Dein Smart Contract muss auch die View-Funktion totalCollected() besitzen,
+    // die den bisher eingesammelten Betrag in Wei zurückliefert.
     const contractABI = [
-      "function buyTokens() public payable"
+      "function buyTokens() public payable",
+      "function totalCollected() public view returns (uint256)"
     ];
+
+    // ETH/USD-Preis von CoinGecko abrufen
+    async function getETHPriceInUSD() {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+        const data = await response.json();
+        return data.ethereum.usd;
+      } catch (error) {
+        console.error("Fehler beim Abrufen des ETH-Preises:", error);
+        return 0;
+      }
+    }
+
+    // Presale-Mittel aktualisieren
+    async function updatePresaleFunds() {
+      try {
+        if (!currentProvider) return;
+        const ethersProvider = new ethers.providers.Web3Provider(currentProvider);
+        const network = await ethersProvider.getNetwork();
+        const contractAddress = contractAddresses[network.chainId];
+        if (!contractAddress) return;
+
+        const contract = new ethers.Contract(contractAddress, contractABI, ethersProvider);
+        // Annahme: totalCollected() gibt den gesammelten Betrag in Wei zurück
+        const totalCollectedWei = await contract.totalCollected();
+        const totalCollectedEth = ethers.utils.formatEther(totalCollectedWei);
+        
+        // Umrechnung in USD
+        const ethPriceUSD = await getETHPriceInUSD();
+        const totalCollectedUSD = (parseFloat(totalCollectedEth) * ethPriceUSD).toFixed(2);
+
+        document.getElementById("total-collected").textContent = `${totalCollectedEth} ETH (~$${totalCollectedUSD})`;
+      } catch (error) {
+        console.error("Fehler beim Aktualisieren der Presale-Fonds:", error);
+      }
+    }
 
     // Kauf-Funktion für Tokens
     async function purchaseTokens() {
@@ -294,36 +343,39 @@
         const ethersProvider = new ethers.providers.Web3Provider(currentProvider);
         const signer = ethersProvider.getSigner();
 
-        // Erhalte Netzwerkinformationen (z. B. Chain-ID)
+        // Aktuelles Netzwerk abfragen
         const network = await ethersProvider.getNetwork();
         console.log("Aktuelles Netzwerk:", network);
 
-        // Hole die ausgewählte Chain-ID aus dem Dropdown
+        // Ausgewählte Chain-ID aus dem Dropdown
         const selectedChainId = document.getElementById("networkSelect").value;
         console.log("Ausgewähltes Netzwerk:", selectedChainId);
 
-        // Erhalte die richtige Contract-Adresse
+        // Passende Contract-Adresse ermitteln
         const contractAddress = contractAddresses[selectedChainId];
         if (!contractAddress) {
           alert("Unsupported network. Please choose Ethereum, Polygon, or Binance Smart Chain.");
           return;
         }
 
-        // Erstelle den Contract
+        // Contract erstellen
         const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-        // Lese den Betrag aus dem Eingabefeld
+        // Betrag aus dem Eingabefeld lesen
         const amount = document.getElementById("buyAmount").value;
         if (!amount || isNaN(amount)) {
           alert("Bitte gib einen gültigen Betrag in ETH ein.");
           return;
         }
 
-        // Sende die Transaktion an die Funktion buyTokens() im Smart Contract
+        // Transaktion an den Smart Contract senden
         const tx = await contract.buyTokens({ value: ethers.utils.parseEther(amount) });
         alert("Transaktion gesendet. Warte auf Bestätigung...");
         await tx.wait();
         alert("Tokens erfolgreich gekauft!");
+
+        // Nach Kauf die Presale-Mittel aktualisieren
+        updatePresaleFunds();
       } catch (error) {
         console.error("Fehler beim Token-Kauf:", error);
         alert("Token-Kauf fehlgeschlagen. Sieh in der Konsole nach Details.");
