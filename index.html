@@ -7,6 +7,22 @@
   <!-- Externe CSS-Datei (optional) -->
   <link rel="stylesheet" href="styles.css" />
   <style>
+    /* Container für den Wettbewerb (oben links, fixiert, scrollbar) */
+    #contest-info {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: 250px;
+      max-height: 200px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px;
+      border: 1px solid #fff;
+      border-radius: 8px;
+      overflow-y: auto;
+      font-size: 0.9em;
+      z-index: 1000;
+    }
+    
     /* Fallback-/Inline-CSS */
     body {
       background-color: #004d00;
@@ -152,6 +168,21 @@
   </style>
 </head>
 <body>
+  <!-- Wettbewerb-Info (oben links) -->
+  <div id="contest-info">
+    <h3>Wettbewerb</h3>
+    <p>
+      Nach Abschluss des Presales und Erstellung der DEX Pools startet unser Wettbewerb.<br>
+      Das Team, das QuantumPepe am besten vermarktet und eine starke Community aufbaut, gewinnt:
+    </p>
+    <ul style="text-align: left; padding-left: 15px;">
+      <li>Platz 1: 2,5B QPEPE Token</li>
+      <li>Platz 2: 1,25B QPEPE Token</li>
+      <li>Platz 3: 625K QPEPE Token</li>
+    </ul>
+    <p>Viel Erfolg!</p>
+  </div>
+  
   <header>
     <h1 class="ai-title">QuantumPepe is here!</h1>
   </header>
@@ -170,7 +201,7 @@
       <div class="fund-info">
         <!-- Anzeige der gesammelten Mittel in ETH und USD -->
         <p>Total collected: <span id="total-collected">0</span></p>
-        <!-- Hier wird nun auch der Liquiditätsanteil (85%) in ETH und USD angezeigt -->
+        <!-- Anzeige des Liquiditätsanteils (85%) in ETH und USD -->
         <p>Going to liquidity (85%): <span id="liquidity-flow">0</span></p>
       </div>
       <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
@@ -408,6 +439,7 @@
   </script>
 </body>
 </html>
+
 
 
 
