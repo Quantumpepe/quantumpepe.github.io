@@ -67,8 +67,7 @@
       right: 180px;
       top: 170px;
       z-index: 10;
-  }
-
+    }
 
     /* Presale box */
     .presale {
@@ -140,12 +139,33 @@
       font-size: 1.1em;
     }
 
+    /* Purchase section & Whitepaper container Wrapper */
+    #purchase-and-whitepaper-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: flex-start;
+      margin: 20px auto;
+    }
+    /* Whitepaper container */
+    #whitepaper-container {
+      background: #004d00;
+      color: #00ff00;
+      font-family: 'Orbitron', sans-serif;
+      border: 1px solid #00ff00;
+      border-radius: 10px;
+      width: 40%;
+      padding: 20px;
+      max-height: 500px;
+      overflow-y: auto;
+      margin: 20px;
+    }
     /* Purchase section */
     #purchaseSection {
       background: rgba(0, 0, 0, 0.6);
       padding: 20px;
       border-radius: 10px;
-      margin: 20px auto;
+      margin: 20px;
       width: 40%;
       text-align: center;
     }
@@ -214,7 +234,7 @@
         max-height: none;
       }
 
-      .presale, #purchaseSection {
+      .presale, #purchaseSection, #whitepaper-container {
         width: 90%;
       }
 
@@ -242,15 +262,14 @@
 
       /* Tokenomics on mobile */
       .tokenomics-content {
-        flex-direction: column;       /* Stack vertically */
-        align-items: center;          /* Center them */
+        flex-direction: column;
+        align-items: center;
       }
       .tokenomics-info,
       .tokenomics-chart {
-        width: 100%;                  /* Full width */
-        margin-bottom: 20px;          /* Spacing below each */
+        width: 100%;
+        margin-bottom: 20px;
       }
-      /* Optional: limit the chart size */
       .tokenomics-chart canvas {
         max-width: 280px;
         max-height: 280px;
@@ -281,8 +300,6 @@
       <li>3rd place: 625M QPEPE Tokens</li>
     </ul>
     <p>Start coming soon!</p>
-
-    <!-- Kontakt-Möglichkeit -->
     <p style="margin-top: 10px; font-size: 0.95em;">
       Interested participants can contact us at
       <a href="mailto:xquantumpepex@gmail.com" style="color: #00ff00; text-decoration: underline;">
@@ -341,19 +358,51 @@
       </div>
     </section>
 
-    <!-- Purchase Section -->
-    <section id="purchaseSection">
-      <h2>Buy Tokens</h2>
-      <p>Enter the amount in ETH to spend:</p>
-      <input type="text" id="buyAmount" placeholder="Amount in ETH"/>
-      <p>Select Network:</p>
-      <select id="networkSelect">
-        <option value="1">Ethereum Mainnet</option>
-        <option value="137">Polygon (Matic)</option>
-        <option value="56">Binance Smart Chain</option>
-      </select>
-      <button id="buyTokensButton">Buy Tokens</button>
-    </section>
+    <!-- Wrapper: Purchase Section & Whitepaper -->
+    <div id="purchase-and-whitepaper-wrapper">
+      <!-- Whitepaper Container -->
+      <div id="whitepaper-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="margin: 0; font-size: 1.8em; text-shadow: 0 0 10px #00ff00;">Whitepaper</h2>
+          <a href="whitepaper.html" target="_blank" style="color: #00ff00; text-decoration: underline; font-size: 0.9em;">Neues Fenster öffnen</a>
+        </div>
+        <hr style="border: 1px solid #00ff00;">
+        <div id="whitepaper-content">
+          <h3>QuantumPepe – Whitepaper</h3>
+          <p><strong>Einführung & Vision:</strong><br>
+             QuantumPepe kombiniert die virale Meme-Kultur mit modernster Blockchain-Technologie, um einen transparenten und dynamischen Presale zu ermöglichen.</p>
+          <p><strong>Herausforderungen & Lösungsansätze:</strong><br>
+             Durch eine dynamische Preisgestaltung und umfassende Sicherheitsmaßnahmen werden Transparenz und Vertrauen in den Presale eingebracht.</p>
+          <p><strong>Technologische Architektur:</strong><br>
+             Die Architektur umfasst ein responsives Frontend mit MetaMask-Integration und einen Smart Contract, der den Presale-Mechanismus (inklusive Preissteigerungen in Phasen) umsetzt.</p>
+          <p><strong>Tokenomics & Verteilung:</strong><br>
+             Gesamtangebot: 900.000.000.000 QPEPE. Aufteilung: 35% Presale, 40% Liquidity, 20% Staking, 4,5% Team, 0,5% Wettbewerb.</p>
+          <p><strong>Roadmap & Entwicklung:</strong><br>
+             Mehrstufige Entwicklung von der Presale-Phase über DEX-Integrationen bis hin zu CEX-Listings und internationaler Expansion.</p>
+          <p><strong>Sicherheitsmaßnahmen & Audits:</strong><br>
+             Einsatz bewährter OpenZeppelin-Standards, vertrauenswürdiger Preisfeeds und regelmäßiger externer Audits.</p>
+          <p><strong>Team & Governance:</strong><br>
+             Ein interdisziplinäres Team sorgt für dezentrale Entscheidungsfindung und transparente Kommunikation.</p>
+          <p><strong>Fazit:</strong><br>
+             QuantumPepe setzt neue Maßstäbe in der Verbindung von Meme-Kultur und Blockchain-Technologie – transparent, sicher und innovativ.</p>
+          <p>Weitere Details finden Sie in der vollständigen Version des Whitepapers.</p>
+        </div>
+      </div>
+
+      <!-- Purchase Section -->
+      <section id="purchaseSection">
+        <h2>Buy Tokens</h2>
+        <p>Enter the amount in ETH to spend:</p>
+        <input type="text" id="buyAmount" placeholder="Amount in ETH"/>
+        <p>Select Network:</p>
+        <select id="networkSelect">
+          <option value="1">Ethereum Mainnet</option>
+          <option value="137">Polygon (Matic)</option>
+          <option value="56">Binance Smart Chain</option>
+        </select>
+        <button id="buyTokensButton">Buy Tokens</button>
+      </section>
+    </div>
 
     <!-- Tokenomics Section -->
     <section class="tokenomics">
@@ -377,7 +426,7 @@
 
   <footer>
     <p>&copy; 2025 QuantumPepe. All rights reserved.</p>
-                    xquantumpepex@gmail.com
+    xquantumpepex@gmail.com
   </footer>
 
   <!-- External Scripts -->
@@ -428,8 +477,6 @@
     };
 
     // Example ABI of your Presale Smart Contract
-    // Important: The contract must have a view function totalCollected() returning
-    // the total collected amount in Wei.
     const contractABI = [
       "function buyTokens() public payable",
       "function totalCollected() public view returns (uint256)"
@@ -457,15 +504,12 @@
         if (!contractAddress) return;
 
         const contract = new ethers.Contract(contractAddress, contractABI, ethersProvider);
-        // totalCollected() returns the total collected in Wei
         const totalCollectedWei = await contract.totalCollected();
         const totalCollectedEth = ethers.utils.formatEther(totalCollectedWei);
 
-        // Convert to USD
         const ethPriceUSD = await getETHPriceInUSD();
         const totalCollectedUSD = (parseFloat(totalCollectedEth) * ethPriceUSD).toFixed(2);
 
-        // Calculate 85% for liquidity
         const liquidityFlowEth = parseFloat(totalCollectedEth) * 0.85;
         const liquidityFlowUSD = (liquidityFlowEth * ethPriceUSD).toFixed(2);
 
@@ -488,41 +532,25 @@
       try {
         const ethersProvider = new ethers.providers.Web3Provider(currentProvider);
         const signer = ethersProvider.getSigner();
-
-        // Get network info (e.g. chainId)
         const network = await ethersProvider.getNetwork();
-        console.log("Current network:", network);
-
-        // Get selected chainId from dropdown
         const selectedChainId = document.getElementById("networkSelect").value;
-        console.log("Selected network:", selectedChainId);
-
-        // Check for valid contract address
         const contractAddress = contractAddresses[selectedChainId];
         if (!contractAddress) {
           alert("Unsupported network. Please choose Ethereum, Polygon, or Binance Smart Chain.");
           return;
         }
-
-        // Create contract instance
         const contract = new ethers.Contract(contractAddress, contractABI, signer);
-
-        // Get amount from input
         const amount = document.getElementById("buyAmount").value;
         if (!amount || isNaN(amount)) {
           alert("Please enter a valid amount in ETH.");
           return;
         }
-
-        // Send transaction to buyTokens()
         const tx = await contract.buyTokens({
           value: ethers.utils.parseEther(amount)
         });
         alert("Transaction sent. Waiting for confirmation...");
         await tx.wait();
         alert("Tokens purchased successfully!");
-
-        // Update presale funds after purchase
         updatePresaleFunds();
       } catch (error) {
         console.error("Error buying tokens:", error);
@@ -530,10 +558,9 @@
       }
     }
 
-    // Event listener for "Buy Tokens" button
     document.getElementById("buyTokensButton").addEventListener("click", purchaseTokens);
 
-    // Initialize tokenomics chart (if canvas is present)
+    // Initialize tokenomics chart
     const ctx = document.getElementById("tokenomicsChart")?.getContext("2d");
     if (ctx) {
       new Chart(ctx, {
@@ -550,4 +577,5 @@
   </script>
 </body>
 </html>
+
 
