@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuantumPepe Whitepaper</title>
+  <style>
+    body {
+      background-color: #004d00;
+      color: #00ff00;
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #00ff00;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    h1, h2, h3 {
+      text-shadow: 0 0 10px #00ff00;
+    }
+    a {
+      color: #00ff00;
+      text-decoration: underline;
+    }
+    hr {
+      border: 1px solid #00ff00;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QuantumPepe Whitepaper</h1>
+    <hr>
+    <h2>Introduction & Vision</h2>
+    <p>
+      QuantumPepe combines viral meme culture with cutting-edge blockchain technology to enable a transparent and dynamic presale. Our vision is to create an ecosystem where technology and community converge.
+    </p>
+    
+    <h2>Challenges & Solutions</h2>
+    <p>
+      By implementing dynamic pricing and robust security measures, QuantumPepe builds transparency and trust during the presale process. Our solution addresses market volatility and fosters long-term community engagement.
+    </p>
+    
+    <h2>Technological Architecture</h2>
+    <p>
+      The platform features a responsive frontend with MetaMask integration and a smart contract that implements the presale mechanism, including phased price increases. This ensures both usability and security.
+    </p>
+    
+    <h2>Tokenomics & Distribution</h2>
+    <p>
+      Total Supply: 900,000,000,000 QPEPE<br>
+      Distribution:
+      <ul>
+        <li>35% Presale</li>
+        <li>40% Liquidity Pool</li>
+        <li>20% Staking/Rewards</li>
+        <li>4.5% Team</li>
+        <li>0.5% Contest</li>
+      </ul>
+    </p>
+    
+    <h2>Roadmap & Development</h2>
+    <p>
+      Our multi-phase development plan starts with the presale, followed by DEX integrations, and culminates with CEX listings and international expansion. Continuous development and security updates are part of our long-term strategy.
+    </p>
+    
+    <h2>Security & Audits</h2>
+    <p>
+      We employ proven OpenZeppelin standards, reliable price feeds, and regular external audits to ensure maximum security. Bug bounty programs further help in maintaining the integrity of the platform.
+    </p>
+    
+    <h2>Team & Governance</h2>
+    <p>
+      An interdisciplinary team of blockchain experts, developers, and marketing professionals drives QuantumPepe. Decentralized decision-making and transparent communication are at the core of our governance model.
+    </p>
+    
+    <h2>Conclusion</h2>
+    <p>
+      QuantumPepe sets new standards by merging meme culture with innovative blockchain technology—transparent, secure, and future-oriented.
+    </p>
+    
+    <p>
+      For more details or inquiries, please contact us at 
+      <a href="mailto:xquantumpepex@gmail.com">xquantumpepex@gmail.com</a>.
+    </p>
+    
+    <p>
+      <a href="index.html">Back to Presale</a>
+    </p>
+  </div>
+</body>
+</html>
