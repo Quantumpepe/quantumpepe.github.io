@@ -61,13 +61,14 @@
 
     /* Pepe logo (right side) */
     .pepe-logo {
-      width: 220px;
-      height: auto;
-      position: absolute;
-      right: 180px;
-      top: 170px;
-      z-index: 10;
-    }
+        position: fixed; /* Immer oben rechts, unabhängig vom Scrollen */
+        top: 10px; /* Abstand zum oberen Rand */
+        right: 10px; /* Abstand zum rechten Rand */
+        width: 120px; /* Größe des Logos */
+        height: auto;
+       z-index: 1000; /* Damit es über allen anderen Elementen bleibt */
+  }
+
 
     /* Presale box */
     .presale {
