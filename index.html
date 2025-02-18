@@ -138,6 +138,23 @@
       line-height: 2em;
       font-size: 1.1em;
     }
+  .stage {
+    position: relative;  /* Damit das Pepe-Logo sich am Stage-Container orientiert */
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    text-align: left;
+}
+
+  .stage-pepe {
+    position: absolute;  /* Fixiert das Pepe-Bild innerhalb der Stage */
+    bottom: 10px;  /* 10px Abstand vom unteren Rand */
+    right: 10px;  /* 10px Abstand vom rechten Rand */
+    width: 40px;  /* Größe von Pepe */
+    height: auto;
+    opacity: 0.9;  /* Leicht transparent für besseren Look */
+}
 
     /* Purchase section & Whitepaper container Wrapper */
     #purchase-and-whitepaper-wrapper {
@@ -355,6 +372,7 @@
           <li>CEX Listings</li>
           <li>50,000 Holders</li>
         </ul>
+        <img src="img/logo3.png" alt="Pepe Logo" class="stage-pepe">
       </div>
     </section>
 
