@@ -328,6 +328,7 @@
 
   <header>
     <h1 class="ai-title">QuantumPepe is here!</h1>
+    <div id="countdown"></div>
   </header>
 
   <main>
@@ -602,6 +603,68 @@
       });
     }
   </script>
+  <!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumPepe Presale Countdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #000;
+            color: #0f0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        #countdown {
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 15px;
+            border: 3px solid #0f0;
+            display: inline-block;
+            border-radius: 10px;
+            background-color: rgba(0, 255, 0, 0.1);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>QuantumPepe ist here</h1>
+    <div id="countdown"></div>
+
+    <script>
+        function updateCountdown() {
+            const presaleStart = new Date("March 31, 2025 19:00:00").getTime();
+            const now = new Date().getTime();
+            const timeLeft = presaleStart - now;
+
+            if (timeLeft <= 0) {
+                document.getElementById("countdown").innerHTML = "🔥 Presale gestartet! 🔥";
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = 
+                `${days} Tage, ${hours} Stunden, ${minutes} Minuten, ${seconds} Sekunden`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+
+</body>
+</html>
 </body>
 </html>
 
