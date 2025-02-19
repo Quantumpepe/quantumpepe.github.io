@@ -436,11 +436,12 @@
       <div class="tokenomics-content">
         <div class="tokenomics-info">
           <ul>
-            <li>✔️ 40% Liquidity Pool</li>
-            <li>✔️ 35% Presale</li>
-            <li>✔️ 20% Staking/Rewards</li>
-            <li>✔️ 4.5% Team</li>
-            <li>✔️ 0.5% Contest</li>
+            <li>✔️ 29% Liquidity Pool</li>
+            <li>✔️ 30% Presale</li>
+            <li>✔️ 25% Staking/Rewards</li>
+            <li>✔️  5% Team</li>
+            <li>✔️  1% Contest</li>
+            <li>✔️ 10% Reserved</li>
           </ul>
         </div>
         <div class="tokenomics-chart">
@@ -592,10 +593,10 @@
       new Chart(ctx, {
         type: "doughnut",
         data: {
-          labels: ["Liquidity/Pool", "Presale", "Staking/Rewards", "Team", "Contest"],
+          labels: ["Liquidity/Pool", "Presale", "Staking/Rewards", "Team", "Contest", "Reserved"],
           datasets: [{
-            data: [40, 35, 20, 4.5, 0.5],
-            backgroundColor: ["#28a745", "#007bff", "#ffca28", "#dc3545" , "#800080"],
+            data: [40, 35, 20, 5, 1, 10],
+            backgroundColor: ["#28a745", "#007bff", "#ffca28", "#dc3545" , "#800080" , "#FF0000"],
           }]
         }
       });
