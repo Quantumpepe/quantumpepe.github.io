@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuantumPepe Presale</title>
-  <!-- External CSS (optional) -->
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="styles.css">
   <style>
     /* Contest Info (originally fixed, top-left) */
     #contest-info {
@@ -29,7 +28,6 @@
       font-size: 1.3em;
       margin-bottom: 10px;
     }
-
     /* Mobile hint for MetaMask users */
     #mobile-hint {
       display: none;
@@ -40,7 +38,6 @@
       border-radius: 5px;
       font-size: 0.9em;
     }
-
     /* Body styles */
     body {
       background-color: #004d00;
@@ -50,7 +47,6 @@
       margin: 0;
       padding: 0;
     }
-
     /* Header title */
     .ai-title {
       font-size: 3em;
@@ -58,18 +54,15 @@
       margin-top: 20px;
       color: #00ff00;
     }
-
     /* Pepe logo (right side) */
     .pepe-logo {
-      position: absolute; /* Positioniert das Logo relativ zum übergeordneten Container */
-      top: 10px;          /* Abstand vom oberen Rand des Containers */
-      right: 10px;        /* Abstand vom rechten Rand des Containers */
-      width: 250px;       /* Breite des Logos */
-      height: auto;       /* Höhe passt sich proportional an */
-      z-index: 1000;      /* Stellt sicher, dass das Logo über anderen Elementen liegt */
-}
-
-
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 250px;
+      height: auto;
+      z-index: 1000;
+    }
     /* Presale box */
     .presale {
       background: rgba(0, 0, 0, 0.6);
@@ -79,7 +72,6 @@
       width: 40%;
       text-align: center;
     }
-
     /* Wallet buttons (MetaMask) */
     .wallet-buttons {
       display: flex;
@@ -103,7 +95,6 @@
     #metamaskButton:hover {
       background: #33ff33;
     }
-
     /* Fund info & token price */
     .fund-info {
       margin-top: 10px;
@@ -114,7 +105,6 @@
       font-size: 1.2em;
       font-weight: bold;
     }
-
     /* Stages area */
     .stages {
       display: flex;
@@ -128,6 +118,7 @@
       border-radius: 10px;
       width: 30%;
       text-align: left;
+      position: relative;
     }
     .stage h3 {
       text-align: center;
@@ -139,24 +130,14 @@
       line-height: 2em;
       font-size: 1.1em;
     }
-  .stage {
-    position: relative;  /* Damit das Pepe-Logo sich am Stage-Container orientiert */
-    background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    border-radius: 10px;
-    width: 30%;
-    text-align: left;
-}
-
-  .stage-pepe {
-    position: absolute;  /* Fixiert das Pepe-Bild innerhalb der Stage */
-    bottom: 10px;  /* 10px Abstand vom unteren Rand */
-    right: 10px;  /* 10px Abstand vom rechten Rand */
-    width: 140px;  /* Größe von Pepe */
-    height: auto;
-    opacity: 0.9;  /* Leicht transparent für besseren Look */
-}
-
+    .stage-pepe {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 140px;
+      height: auto;
+      opacity: 0.9;
+    }
     /* Purchase section & Whitepaper container Wrapper */
     #purchase-and-whitepaper-wrapper {
       display: flex;
@@ -199,7 +180,6 @@
       padding: 8px 16px;
       cursor: pointer;
     }
-
     /* Tokenomics section */
     .tokenomics {
       background: rgba(0, 0, 0, 0.6);
@@ -230,7 +210,6 @@
       width: 300px;
       height: 300px;
     }
-
     /* Footer */
     footer {
       margin-top: 20px;
@@ -238,11 +217,20 @@
       background: rgba(0, 0, 0, 0.6);
       text-align: center;
     }
-
+    /* Additional Countdown Styles */
+    #countdown {
+      font-size: 2rem;
+      font-weight: bold;
+      padding: 15px;
+      border: 3px solid #0f0;
+      display: inline-block;
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 15px #0f0;
+      margin-top: 20px;
+    }
     /* Media Queries for mobile */
     @media (max-width: 768px) {
-      /* The Contest-Container is no longer fixed, 
-         so it won't overlap content. */
       #contest-info {
         position: static;
         width: 90%;
@@ -251,11 +239,9 @@
         top: auto;
         max-height: none;
       }
-
       .presale, #purchaseSection, #whitepaper-container {
         width: 90%;
       }
-
       .stages {
         flex-direction: column;
       }
@@ -275,10 +261,8 @@
         display: block;
       }
       .pepe-logo {
-        display: none; /* Hide the logo on small screens if it overlaps */
+        display: none;
       }
-
-      /* Tokenomics on mobile */
       .tokenomics-content {
         flex-direction: column;
         align-items: center;
@@ -328,6 +312,7 @@
 
   <header>
     <h1 class="ai-title">QuantumPepe is here!</h1>
+    <!-- Countdown Element – kann später entfernt werden -->
     <div id="countdown"></div>
   </header>
 
@@ -381,7 +366,7 @@
       </div>
     </section>
 
-    <!-- Wrapper: Purchase Section & Whitepaper -->
+    <!-- Purchase and Whitepaper Section -->
     <div id="purchase-and-whitepaper-wrapper">
       <!-- Whitepaper Container -->
       <div id="whitepaper-container">
@@ -420,13 +405,13 @@
       <section id="purchaseSection">
         <h2>BUY QPEPE</h2>
         <p>Enter the amount to spend:</p>
-        <input type="text" id="buyAmount" placeholder="Amount in "/>
+        <input type="text" id="buyAmount" placeholder="Amount in ETH"/>
         <p>Select Network:</p>
         <select id="networkSelect">
           <option value="1">Ethereum Mainnet</option>
           <option value="137">Polygon (Matic)</option>
           <option value="56">Binance Smart Chain</option>
-	  <option value="97">Binance Smart Chain Testnet</option>
+          <option value="97">Binance Smart Chain Testnet</option>
         </select>
         <button id="buyTokensButton">BUY QPEPE</button>
       </section>
@@ -455,20 +440,18 @@
 
   <footer>
     <p>&copy; 2025 QuantumPepe. All rights reserved.</p>
-    xquantumpepex@gmail.com
+    <p>Contact: xquantumpepex@gmail.com</p>
   </footer>
 
   <!-- External Scripts -->
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Ethers.js -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
   <script>
     // Global provider (MetaMask)
     let currentProvider = null;
 
-    // Status message
+    // Status message element
     const statusEl = document.createElement("p");
     statusEl.id = "status";
     statusEl.style.marginTop = "10px";
@@ -502,8 +485,8 @@
     const contractAddresses = {
       1: "0xE6Cf560B8bD1654fe6d4c3ba0C27D25C51edCBe2", // Ethereum Mainnet
       137: "0x8cc0fC1678AF2C73D30D4f61ebc0783d49210BeD", // Polygon
-      56: "0x1851778016C05e0d498bd38A8E9807c6c4Afb6BA", // BSC
-      97: "0x4CBFa981aA7340064A5708F9f10e16623d51B14c",
+      56: "0x1851778016C05e0d498bd38A8E9807c6c4Afb6BA", // Binance Smart Chain
+      97: "0x4CBFa981aA7340064A5708F9f10e16623d51B14c"  // Binance Smart Chain Testnet
     };
 
     // Example ABI of your Presale Smart Contract
@@ -562,7 +545,6 @@
       try {
         const ethersProvider = new ethers.providers.Web3Provider(currentProvider);
         const signer = ethersProvider.getSigner();
-        const network = await ethersProvider.getNetwork();
         const selectedChainId = document.getElementById("networkSelect").value;
         const contractAddress = contractAddresses[selectedChainId];
         if (!contractAddress) {
@@ -599,64 +581,35 @@
           labels: ["Liquidity/Pool", "Presale", "Staking/Rewards", "Team", "Contest", "Reserved"],
           datasets: [{
             data: [29, 30, 25, 5, 1, 10],
-            backgroundColor: ["#28a745", "#007bff", "#ffca28", "#dc3545" , "#800080" , "#FF0000"],
+            backgroundColor: ["#28a745", "#007bff", "#ffca28", "#dc3545", "#800080", "#FF0000"],
           }]
         }
       });
     }
+
+    // Countdown Script
+    function updateCountdown() {
+      const presaleStart = new Date("April 30, 2025 19:00:00").getTime();
+      const now = new Date().getTime();
+      const timeLeft = presaleStart - now;
+
+      if (timeLeft <= 0) {
+        document.getElementById("countdown").innerHTML = "🔥 Presale gestartet! 🔥";
+        return;
+      }
+
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        `${days} Tage, ${hours} Stunden, ${minutes} Minuten, ${seconds} Sekunden`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
-  <!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantumPepe Presale Countdown</title>
-    <style>
-        body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        background-color: #003300; /* Dunkelgrüner Hintergrund */
-        color: #0f0; /* Neon-Grüne Schrift */
-}
-
-   #countdown {
-       font-size: 2rem;
-       font-weight: bold;
-       padding: 15px;
-       border: 3px solid #0f0;
-       display: inline-block;
-       border-radius: 10px;
-       background-color: rgba(0, 0, 0, 0.7); /* Schwarz mit 70% Transparenz */
-       box-shadow: 0 0 15px #0f0; /* Grüner Glow-Effekt */
-       margin-top: 20px;
-}
-    </style>
-</head>
-<body>
-
-    <script>
-        function updateCountdown() {
-            const presaleStart = new Date("April 30, 2025 19:00:00").getTime();
-            const now = new Date().getTime();
-            const timeLeft = presaleStart - now;
-
-            if (timeLeft <= 0) {
-                document.getElementById("countdown").innerHTML = "🔥 Presale gestartet! 🔥";
-                return;
-            }
-
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerHTML = 
-                `${days} Tage, ${hours} Stunden, ${minutes} Minuten, ${seconds} Sekunden`;
-        }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-    </script>
-
 </body>
 </html>
+
