@@ -71,7 +71,16 @@
       margin: 20px auto;
       width: 40%;
       text-align: center;
-    }
+      position: relative; /* Neu hinzugefügt */
+  }
+
+       /* QR-Code unten links im Presale-Feld */
+   #metamaskQR {
+     position: absolute;
+     bottom: 10px;
+     left: 10px;
+  }
+
     /* Wallet buttons (MetaMask) */
     .wallet-buttons {
       display: flex;
@@ -319,18 +328,23 @@
   <main>
     <!-- Presale Section -->
     <section class="presale">
-      <h2>The presale coming soon!</h2>
-      <p>Connect your MetaMask and claim your QuantumPepe!</p>
-      <p class="token-price">Token Price: $0.0001 per Token</p>
-      <div class="wallet-buttons">
-        <button id="metamaskButton" class="wallet-button">Connect MetaMask</button>
-      </div>
-      <div class="fund-info">
-        <p>Total collected: <span id="total-collected">0</span></p>
-        <p>Going to liquidity (85%): <span id="liquidity-flow">0</span></p>
-      </div>
-      <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
-    </section>
+  <h2>The presale coming soon!</h2>
+  <p>Connect your MetaMask and claim your QuantumPepe!</p>
+  <p class="token-price">Token Price: $0.0001 per Token</p>
+  <div class="wallet-buttons">
+    <button id="metamaskButton" class="wallet-button" style="background: #00ff00; color: #000;">
+      Connect MetaMask
+    </button>
+  </div>
+  <div class="fund-info">
+    <p>Total collected: <span id="total-collected">0</span></p>
+    <p>Going to liquidity (85%): <span id="liquidity-flow">0</span></p>
+  </div>
+  <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
+  <!-- QR-Code im Presale-Feld, unten links -->
+  <div id="metamaskQR"></div>
+</section>
+
 
     <!-- Stages Section -->
     <section class="stages">
@@ -607,8 +621,15 @@
         `${days} Tage, ${hours} Stunden, ${minutes} Minuten, ${seconds} Sekunden`;
     }
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+     setInterval(updateCountdown, 1000);
+     updateCountdown();
+    
+    new QRCode(document.getElementById("metamaskQR"), {
+     text: "https://metamask.io",
+     width: 128,
+     height: 128
+  });
+  
   </script>
 </body>
 </html>
