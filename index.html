@@ -54,7 +54,7 @@
       margin-top: 20px;
       color: #00ff00;
     }
-    /* Pepe logo (right side) */
+    /* Pepe logo (right side) - im Header positioniert */
     .pepe-logo {
       position: absolute;
       top: 10px;
@@ -71,16 +71,14 @@
       margin: 20px auto;
       width: 40%;
       text-align: center;
-      position: relative; /* Neu hinzugefügt */
-  }
-
-       /* QR-Code unten links im Presale-Feld */
-   #metamaskQR {
-     position: absolute;
-     bottom: 10px;
-     left: 10px;
-  }
-
+      position: relative; /* Damit der QR-Code absolut positioniert werden kann */
+    }
+    /* QR-Code unten links im Presale-Feld */
+    #metamaskQR {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+    }
     /* Wallet buttons (MetaMask) */
     .wallet-buttons {
       display: flex;
@@ -321,30 +319,29 @@
 
   <header>
     <h1 class="ai-title">QuantumPepe is here!</h1>
-    <!-- Countdown Element – kann später entfernt werden -->
     <div id="countdown"></div>
+    <!-- Pepe-Logo jetzt im Header -->
+    <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
   </header>
 
   <main>
     <!-- Presale Section -->
     <section class="presale">
-  <h2>The presale coming soon!</h2>
-  <p>Connect your MetaMask and claim your QuantumPepe!</p>
-  <p class="token-price">Token Price: $0.0001 per Token</p>
-  <div class="wallet-buttons">
-    <button id="metamaskButton" class="wallet-button" style="background: #00ff00; color: #000;">
-      Connect MetaMask
-    </button>
-  </div>
-  <div class="fund-info">
-    <p>Total collected: <span id="total-collected">0</span></p>
-    <p>Going to liquidity (85%): <span id="liquidity-flow">0</span></p>
-  </div>
-  <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
-  <!-- QR-Code im Presale-Feld, unten links -->
-  <div id="metamaskQR"></div>
-</section>
-
+      <h2>The presale coming soon!</h2>
+      <p>Connect your MetaMask and claim your QuantumPepe!</p>
+      <p class="token-price">Token Price: $0.0001 per Token</p>
+      <div class="wallet-buttons">
+        <button id="metamaskButton" class="wallet-button" style="background: #00ff00; color: #000;">
+          Connect MetaMask
+        </button>
+      </div>
+      <div class="fund-info">
+        <p>Total collected: <span id="total-collected">0</span></p>
+        <p>Going to liquidity (85%): <span id="liquidity-flow">0</span></p>
+      </div>
+      <!-- QR-Code im Presale-Feld, unten links -->
+      <div id="metamaskQR"></div>
+    </section>
 
     <!-- Stages Section -->
     <section class="stages">
@@ -457,43 +454,62 @@
     <p>Contact: xquantumpepex@gmail.com</p>
   </footer>
 
-  <!-- External Scripts -->
+  <!-- Externe Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <script>
     // Global provider (MetaMask)
     let currentProvider = null;
-
-    // Status message element
     const statusEl = document.createElement("p");
     statusEl.id = "status";
     statusEl.style.marginTop = "10px";
     document.body.insertBefore(statusEl, document.body.firstChild);
 
-    // Connect MetaMask
-    async function connectMetaMask() {
-      if (window.ethereum) {
-        try {
-          await window.ethereum.request({ method: "eth_requestAccounts" });
-          currentProvider = window.ethereum;
-          const ethersProvider = new ethers.providers.Web3Provider(window.ethereum);
-          const signer = ethersProvider.getSigner();
-          const address = await signer.getAddress();
-          statusEl.textContent = "MetaMask connected: " + address;
-          // Update presale funds after successful connection
-          updatePresaleFunds();
-        } catch (error) {
-          console.error("MetaMask connection failed:", error);
-          statusEl.textContent = "MetaMask connection failed.";
-        }
+    // Button-Referenz
+    const metamaskButton = document.getElementById("metamaskButton");
+
+    // Toggle-Verhalten: Connect/Disconnect
+    metamaskButton.addEventListener("click", () => {
+      if (!currentProvider) {
+        connectMetaMask();
       } else {
+        disconnectMetaMask();
+      }
+    });
+
+    async function connectMetaMask() {
+      if (!window.ethereum) {
         statusEl.textContent = "MetaMask not found. Please install MetaMask.";
+        return;
+      }
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        currentProvider = window.ethereum;
+        const ethersProvider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = ethersProvider.getSigner();
+        const address = await signer.getAddress();
+        statusEl.textContent = "MetaMask connected: " + address;
+
+        // Button anpassen: auf Disconnect und rot
+        metamaskButton.textContent = "Disconnect";
+        metamaskButton.style.backgroundColor = "red";
+
+        updatePresaleFunds();
+      } catch (error) {
+        console.error("MetaMask connection failed:", error);
+        statusEl.textContent = "MetaMask connection failed.";
       }
     }
 
-    // Event listener for MetaMask button
-    document.getElementById("metamaskButton").addEventListener("click", connectMetaMask);
+    function disconnectMetaMask() {
+      // Simuliere Disconnect: Setze Provider zurück und ändere UI
+      currentProvider = null;
+      statusEl.textContent = "MetaMask disconnected.";
+      metamaskButton.textContent = "Connect MetaMask";
+      metamaskButton.style.backgroundColor = "#00ff00";
+    }
 
     // Contract addresses per network
     const contractAddresses = {
@@ -529,17 +545,13 @@
         const network = await ethersProvider.getNetwork();
         const contractAddress = contractAddresses[network.chainId];
         if (!contractAddress) return;
-
         const contract = new ethers.Contract(contractAddress, contractABI, ethersProvider);
         const totalCollectedWei = await contract.totalCollected();
         const totalCollectedEth = ethers.utils.formatEther(totalCollectedWei);
-
         const ethPriceUSD = await getETHPriceInUSD();
         const totalCollectedUSD = (parseFloat(totalCollectedEth) * ethPriceUSD).toFixed(2);
-
         const liquidityFlowEth = parseFloat(totalCollectedEth) * 0.85;
         const liquidityFlowUSD = (liquidityFlowEth * ethPriceUSD).toFixed(2);
-
         document.getElementById("total-collected").textContent =
           `${totalCollectedEth} ETH (~$${totalCollectedUSD})`;
         document.getElementById("liquidity-flow").textContent =
@@ -555,7 +567,6 @@
         alert("Please connect your wallet first!");
         return;
       }
-
       try {
         const ethersProvider = new ethers.providers.Web3Provider(currentProvider);
         const signer = ethersProvider.getSigner();
@@ -606,31 +617,26 @@
       const presaleStart = new Date("April 30, 2025 19:00:00").getTime();
       const now = new Date().getTime();
       const timeLeft = presaleStart - now;
-
       if (timeLeft <= 0) {
         document.getElementById("countdown").innerHTML = "🔥 Presale gestartet! 🔥";
         return;
       }
-
       const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
       const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
       document.getElementById("countdown").innerHTML =
         `${days} Tage, ${hours} Stunden, ${minutes} Minuten, ${seconds} Sekunden`;
     }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 
-     setInterval(updateCountdown, 1000);
-     updateCountdown();
-    
+    // QR-Code im Presale-Feld (unten links)
     new QRCode(document.getElementById("metamaskQR"), {
-     text: "https://metamask.io",
-     width: 128,
-     height: 128
-  });
-  
+      text: "https://metamask.io",
+      width: 128,
+      height: 128
+    });
   </script>
 </body>
 </html>
-
