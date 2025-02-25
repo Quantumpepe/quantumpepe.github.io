@@ -688,44 +688,56 @@
 
 <script>
   async function updatePresaleFunds() {
-    try {
-      // 🔹 Verbindung zur Blockchain ohne MetaMask (BNB Testnet)
-      const provider = new ethers.providers.JsonRpcProvider("https://data-seed-prebsc-1-s1.binance.org:8545/");
+  try {
+    // 🔹 Verbindung zu den 3 Netzwerken
+    const providers = {
+      ETH: new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/YOUR_INFURA_KEY"),
+      BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
+      POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com")
+    };
 
-      // 🔹 Ersetze mit deiner aktuellen Contract-Adresse
-      const contractAddress = "0x8c299BD5A586a811Ba319348552426E502d62615";  
+    // 🔹 Deine Contract-Adressen für jede Chain (nach Mainnet-Deploy ändern!)
+    const contractAddresses = {
+      ETH: "0xDEIN_ETH_CONTRACT",
+      BNB: "0xDEIN_BNB_CONTRACT",
+      POL: "0xDEIN_POLYGON_CONTRACT"
+    };
 
-      // 🔹 Contract-ABI (Minimal, nur was gebraucht wird)
-      const contractABI = [
-        {
-          "inputs": [],
-          "name": "totalCollected",
-          "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-          "stateMutability": "view",
-          "type": "function"
-        }
-      ];
+    // 🔹 Contract-ABI (Minimal, nur totalCollected)
+    const contractABI = [
+      {
+        "inputs": [],
+        "name": "totalCollected",
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ];
 
-      // 🔹 Contract-Instanz erstellen
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+    // 🔹 1️⃣ Gesamtwert initialisieren
+    let totalCollectedSum = 0;
 
-      // 🔹 1️⃣ `totalCollected()` direkt auslesen
-      const totalCollectedWei = await contract.totalCollected();
-      const totalCollectedEth = ethers.utils.formatEther(totalCollectedWei);
-
-      // 🔹 2️⃣ Werte auf der Webseite aktualisieren
-      document.getElementById("total-collected").textContent = `${totalCollectedEth} BNB`;
-
-    } catch (error) {
-      console.error("Fehler beim Abrufen der Presale-Daten:", error);
+    // 🔹 2️⃣ Werte von allen Netzwerken abrufen & zusammenrechnen
+    for (const [chain, provider] of Object.entries(providers)) {
+      const contract = new ethers.Contract(contractAddresses[chain], contractABI, provider);
+      const collectedWei = await contract.totalCollected();
+      totalCollectedSum += parseFloat(ethers.utils.formatEther(collectedWei));
     }
-  }
 
-  // ⏳ Automatische Aktualisierung nach dem Laden & jede Minute
-  window.onload = async () => {
-    await updatePresaleFunds();
-    setInterval(updatePresaleFunds, 60000); // Alle 60 Sek. aktualisieren
-  };
+    // 🔹 3️⃣ Werte auf der Webseite aktualisieren
+    document.getElementById("total-collected").textContent = `${totalCollectedSum.toFixed(4)} BNB/ETH/MATIC`;
+
+  } catch (error) {
+    console.error("Fehler beim Abrufen der Presale-Daten:", error);
+  }
+}
+
+// ⏳ Automatische Aktualisierung nach dem Laden & jede Minute
+window.onload = async () => {
+  await updatePresaleFunds();
+  setInterval(updatePresaleFunds, 10000); // Alle 60 Sek. aktualisieren
+};
+
 </script>
 </body>
 </html>
