@@ -691,10 +691,11 @@
   try {
     // 🔹 Verbindung zu den 3 Netzwerken
     const providers = {
-      ETH: new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/YOUR_INFURA_KEY"),
-      BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
-      POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com")
-    };
+       ETH: new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com"), // Kein API-Key nötig
+       BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
+       POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com")
+  };
+
 
     // 🔹 Deine Contract-Adressen für jede Chain (nach Mainnet-Deploy ändern!)
     const contractAddresses = {
