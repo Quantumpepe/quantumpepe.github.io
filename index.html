@@ -223,9 +223,9 @@
       box-shadow: 0 0 15px #0f0;
       margin-top: 20px;
     }
-    /* Neuer Container für Countdown + Telegram-Logo */
+    /* Neuer Container für Countdown + X-Logo + Telegram-Logo */
     #countdown-container {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
@@ -316,11 +316,15 @@
 
   <header>
     <h1 class="ai-title">QuantumPepe is here!</h1>
-    <!-- Container für Countdown und Telegram-Logo -->
+    <!-- Container für Countdown, X-Logo und Telegram-Logo -->
     <div id="countdown-container">
+      <!-- X-Logo links (Platzhalter) -->
+      <a href="https://t.me/+FThl7_r3O3JkZTc8" target="_blank" class="x-logo" style="margin-right: 10px;">
+        <img src="logo7.png" alt="X Logo" style="width:60px; height:auto;">
+      </a>
       <div id="countdown"></div>
       <a href="https://t.me/+FThl7_r3O3JkZTc8" target="_blank" id="telegram-link">
-        <img src="logo5.png"Telegram Logo">
+        <img src="logo5.png" alt="Telegram Logo" style="width:60px; height:auto;">
       </a>
     </div>
     <!-- Pepe-Logo im Header -->
@@ -339,9 +343,8 @@
         </button>
       </div>
       <div class="fund-info">
-        <!-- Angepasst: Anzeige der verkauften Token -->
         <p>Total collected: <span id="total-collected">0 QPEPE sold</span></p>
-        <p>Going to liquidity (85%): <span id="liquidity-flow">0</span></p>
+        <p>Going to liquidity (80-90%): <span id="liquidity-flow">0</span></p>
       </div>
       <!-- QR-Code unten links im Presale-Feld -->
       <div id="metamaskQR"></div>
@@ -865,4 +868,3 @@
   </script>
 </body>
 </html>
-
