@@ -6,7 +6,7 @@
   <title>QuantumPepe Presale</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    
+    /* --- Ihre vorhandenen Styles --- */
     #contest-info h3 {
       color: #00ff00;
       text-shadow: 0 0 10px #00ff00;
@@ -37,7 +37,6 @@
       margin-top: 20px;
       color: #00ff00;
     }
-    /* Pepe logo im Header positioniert */
     .pepe-logo {
       position: absolute;
       top: 10px;
@@ -55,7 +54,6 @@
       text-align: center;
       position: relative;
     }
-    /* QR-Code unten links im Presale-Feld */
     #metamaskQR {
       position: absolute;
       bottom: 10px;
@@ -209,7 +207,6 @@
       box-shadow: 0 0 15px #0f0;
       margin-top: 20px;
     }
-    /* Neuer Container für Countdown + X-Logo + Telegram-Logo */
     #countdown-container {
       display: flex;
       align-items: center;
@@ -274,11 +271,9 @@
   <div id="mobile-hint">
     For proper wallet interaction on mobile, please open this site within the MetaMask in-app browser.
   </div>
-   <header>
+  <header>
     <h1 class="ai-title">QuantumPepe is here!</h1>
-    <!-- Container für Countdown, X-Logo und Telegram-Logo -->
     <div id="countdown-container">
-      <!-- X-Logo links (Platzhalter) -->
       <a href="https://x.com/fabrizio3030?t=4LawbrjPH2WsOxY21StZ3g&s=35" target="_blank" class="x-logo" style="margin-right: 10px;">
         <img src="logo7.png" alt="X Logo" style="width:60px; height:auto;">
       </a>
@@ -287,10 +282,8 @@
         <img src="logo5.png" alt="Telegram Logo" style="width:60px; height:auto;">
       </a>
     </div>
-    <!-- Pepe-Logo im Header -->
     <img src="logo.webp" alt="QuantumPepe Logo" class="pepe-logo">
   </header>
-
   <main>
     <!-- Presale Section -->
     <section class="presale">
@@ -303,13 +296,12 @@
         </button>
       </div>
       <div class="fund-info">
+        <!-- Hier wird nur der gesamte Betrag angezeigt -->
         <p>Total collected: <span id="total-collected">0 QPEPE sold</span></p>
         <p>Going to liquidity (85-90%): <span id="liquidity-flow">0</span></p>
       </div>
-      <!-- QR-Code unten links im Presale-Feld -->
       <div id="metamaskQR"></div>
     </section>
-
     <!-- Stages Section -->
     <section class="stages">
       <div class="stage">
@@ -343,10 +335,8 @@
         <img src="img/logo3.png" alt="Pepe Logo" class="stage-pepe">
       </div>
     </section>
-
     <!-- Purchase and Whitepaper Section -->
     <div id="purchase-and-whitepaper-wrapper">
-      <!-- Whitepaper Container -->
       <div id="whitepaper-container">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <h2 style="margin: 0; font-size: 1.8em; text-shadow: 0 0 10px #00ff00;">Whitepaper</h2>
@@ -378,7 +368,6 @@
           <p>For more details, of ( Right Exclusion) please refer to the full version of the whitepaper.</p>
         </div>
       </div>
-
       <!-- Purchase Section -->
       <section id="purchaseSection">
         <h2>BUY QPEPE</h2>
@@ -393,7 +382,6 @@
         <button id="buyTokensButton">BUY QPEPE</button>
       </section>
     </div>
-
     <!-- Tokenomics Section -->
     <section class="tokenomics">
       <h2>QuantumPepe Tokenomics</h2>
@@ -413,29 +401,24 @@
       </div>
     </section>
   </main>
-
   <footer>
     <p>&copy; 2025 QuantumPepe. All rights reserved.</p>
     <p>Contact: xquantumpepex@gmail.com</p>
   </footer>
-
   <!-- Externe Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
   <script>
-    // Global provider (MetaMask)
+    // Globaler MetaMask-Provider und Statusanzeige
     let currentProvider = null;
     const statusEl = document.createElement("p");
     statusEl.id = "status";
     statusEl.style.marginTop = "10px";
     document.body.insertBefore(statusEl, document.body.firstChild);
-
-    // Button-Referenz
+  
+    // MetaMask Connect/Disconnect Button
     const metamaskButton = document.getElementById("metamaskButton");
-
-    // Toggle-Verhalten: Connect/Disconnect
     metamaskButton.addEventListener("click", () => {
       if (!currentProvider) {
         connectMetaMask();
@@ -443,7 +426,7 @@
         disconnectMetaMask();
       }
     });
-
+  
     async function connectMetaMask() {
       if (!window.ethereum) {
         statusEl.textContent = "MetaMask not found. Please install MetaMask.";
@@ -456,33 +439,32 @@
         const signer = ethersProvider.getSigner();
         const address = await signer.getAddress();
         statusEl.textContent = "MetaMask connected: " + address;
-
-        // Button anpassen: auf Disconnect und rot
+  
         metamaskButton.textContent = "Disconnect";
         metamaskButton.style.backgroundColor = "red";
-
+  
         updatePresaleFunds();
       } catch (error) {
         console.error("MetaMask connection failed:", error);
         statusEl.textContent = "MetaMask connection failed.";
       }
     }
-
+  
     function disconnectMetaMask() {
       currentProvider = null;
       statusEl.textContent = "MetaMask disconnected.";
       metamaskButton.textContent = "Connect MetaMask";
       metamaskButton.style.backgroundColor = "#00ff00";
     }
-
-    // Contract addresses per network
+  
+    // Contract-Adressen pro Netzwerk (für den Kauf)
     const contractAddresses = {
       1: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798", // Ethereum Mainnet
       137: "0x57f5e0DDa1ddfdbBa469bCD6b6f90db5dE4ce69A", // Polygon
-      56: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798", // Binance Smart Chain
+      56: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798"  // Binance Smart Chain
     };
-
-    // Neue ABI als flaches Array von JSON-Objekten
+  
+    // ABI des Smart Contracts (wie bereitgestellt)
     const contractABI = [
       {
         "inputs": [
@@ -682,39 +664,37 @@
         "type": "function"
       }
     ];
-
-    // Funktion, um verkaufte Token (presaleSold) anzuzeigen
+  
+    // Diese Funktion summiert die gesammelten Beträge von ETH, BNB und POL und zeigt den Gesamtwert an.
     async function updatePresaleFunds() {
       try {
-        // Verbindung zu den drei Netzwerken
         const providers = {
           ETH: new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com"),
           BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
           POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com")
         };
-
+  
         const addresses = {
           ETH: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
           BNB: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
           POL: "0x57f5e0DDa1ddfdbBa469bCD6b6f90db5dE4ce69A"
         };
-
+  
         let totalCollectedSum = 0;
-
+  
         for (const [chain, provider] of Object.entries(providers)) {
           const contract = new ethers.Contract(addresses[chain], contractABI, provider);
           const collectedWei = await contract.totalCollected();
-          const collectedTokens = parseFloat(ethers.utils.formatEther(collectedWei));
-          totalCollectedSum += collectedTokens;
+          const collectedAmount = parseFloat(ethers.utils.formatEther(collectedWei));
+          totalCollectedSum += collectedAmount;
         }
-
-        document.getElementById("total-collected").textContent = 
-          `${totalCollectedSum.toFixed(2)} QPEPE sold`;
+  
+        document.getElementById("total-collected").textContent = `${totalCollectedSum.toFixed(2)} QPEPE sold`;
       } catch (error) {
-        console.error("Error updating presale funds:", error);
+        console.error("Fehler beim Abrufen der Presale-Daten:", error);
       }
     }
-
+  
     async function purchaseTokens() {
       if (!currentProvider) {
         alert("Please connect your wallet first!");
@@ -735,7 +715,6 @@
           alert("Please enter a valid amount in ETH/BNB/etc.");
           return;
         }
-        // Manuelles Gaslimit gesetzt (300000 als Beispiel)
         const tx = await contract.buyTokens({
           value: ethers.utils.parseEther(amount),
           gasLimit: 300000
@@ -749,9 +728,9 @@
         alert("Token purchase failed. See console for details.");
       }
     }
-
+  
     document.getElementById("buyTokensButton").addEventListener("click", purchaseTokens);
-
+  
     const ctx = document.getElementById("tokenomicsChart")?.getContext("2d");
     if (ctx) {
       new Chart(ctx, {
@@ -765,7 +744,7 @@
         }
       });
     }
-
+  
     function updateCountdown() {
       const presaleStart = new Date("Marz 01, 2025 12:00:00").getTime();
       const now = new Date().getTime();
@@ -783,43 +762,13 @@
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();
-
+  
     new QRCode(document.getElementById("metamaskQR"), {
       text: "https://quantumpepe.github.io/",
-      width:  80,
+      width: 80,
       height: 80
     });
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <script>
-    async function updatePresaleFunds() {
-      try {
-        const providers = {
-          ETH: new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com"),
-          BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
-          POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com")
-        };
-
-        const addresses = {
-          ETH: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
-          BNB: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
-          POL: "0x57f5e0DDa1ddfdbBa469bCD6b6f90db5dE4ce69A"
-        };
-
-        let totalCollectedSum = 0;
-        for (const [chain, provider] of Object.entries(providers)) {
-          const contract = new ethers.Contract(addresses[chain], contractABI, provider);
-          const collectedWei = await contract.totalCollected();
-          const collectedTokens = parseFloat(ethers.utils.formatEther(collectedWei));
-          totalCollectedSum += collectedTokens;
-        }
-        document.getElementById("total-collected").textContent = 
-          `${totalCollectedSum.toFixed(2)} QPEPE sold`;
-      } catch (error) {
-        console.error("Fehler beim Abrufen der Presale-Daten:", error);
-      }
-    }
-
+  
     window.onload = async () => {
       await updatePresaleFunds();
       setInterval(updatePresaleFunds, 60000);
