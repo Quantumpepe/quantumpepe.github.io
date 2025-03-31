@@ -678,7 +678,17 @@ twq('config','pa3tm');
       }
     ];
   
-    // Diese Funktion summiert die gesammelten Beträge von ETH, BNB und POL und zeigt den Gesamtwert an.
+    /async function getTokenPricesUSD() {
+  const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum,binancecoin,polygon&vs_currencies=usd");
+  const data = await res.json();
+  return {
+    ETH: data.ethereum.usd,
+    BNB: data.binancecoin.usd,
+    POL: data.polygon.usd
+  };
+}
+/ Diese Funktion summiert die gesammelten Beträge von ETH, BNB und POL und zeigt den Gesamtwert an.
+    
     async function updatePresaleFunds() {
   try {
     const prices = await getTokenPricesUSD(); // USD-Preise laden
