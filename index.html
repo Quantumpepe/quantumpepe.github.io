@@ -265,6 +265,14 @@
       }
     }
   </style>
+  <!-- Twitter conversion tracking base code -->
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+twq('config','pa3tm');
+</script>
+<!-- End Twitter conversion tracking base code -->
 </head>
 <body>
   <!-- Mobile hint for MetaMask users -->
@@ -666,53 +674,34 @@
     ];
   
     // Diese Funktion summiert die gesammelten Beträge von ETH, BNB und POL und zeigt den Gesamtwert an.
-    // 1. Preise abrufen
-   async function getTokenPricesUSD() {
-    const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum,binancecoin,polygon&vs_currencies=usd");
-    const data = await res.json();
-    return {
-      ETH: data.ethereum.usd,
-      BNB: data.binancecoin.usd,
-      POL: data.polygon.usd
-   };
- }
-
-// 2. Investierte USD + Tokens anzeigen
-  async function updatePresaleFunds() {
-   try {
-     const prices = await getTokenPricesUSD();
-
-     const providers = {
-       ETH: new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com"),
-       BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
-       POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com")
-     };
-
-     const addresses = {
-       ETH: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
-       BNB: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
-       POL: "0x57f5e0DDa1ddfdbBa469bCD6b6f90db5dE4ce69A"
-     };
-
-      let totalUSD = 0;
-
-      for (const [chain, provider] of Object.entries(providers)) {
-       const contract = new ethers.Contract(addresses[chain], contractABI, provider);
-       const collectedWei = await contract.totalCollected();
-       const nativeAmount = parseFloat(ethers.utils.formatEther(collectedWei));
-       const usdValue = nativeAmount * prices[chain];
-       totalUSD += usdValue;
-     }
-
-     const tokensSold = totalUSD / 0.0001;
-
-     document.getElementById("total-collected").textContent = `$${totalUSD.toFixed(2)} collected`;
-     document.getElementById("tokens-sold").textContent = `${tokensSold.toLocaleString()} QPEPE sold`;
-   }  catch (error) {
-     console.error("Fehler beim Abrufen der Presale-Daten:", error);
-   }
- }
-
+    async function updatePresaleFunds() {
+      try {
+        const providers = {
+          ETH: new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com"),
+          BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
+          POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com")
+        };
+  
+        const addresses = {
+          ETH: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
+          BNB: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
+          POL: "0x57f5e0DDa1ddfdbBa469bCD6b6f90db5dE4ce69A"
+        };
+  
+        let totalCollectedSum = 0;
+  
+        for (const [chain, provider] of Object.entries(providers)) {
+          const contract = new ethers.Contract(addresses[chain], contractABI, provider);
+          const collectedWei = await contract.totalCollected();
+          const collectedAmount = parseFloat(ethers.utils.formatEther(collectedWei));
+          totalCollectedSum += collectedAmount;
+        }
+  
+        document.getElementById("total-collected").textContent = `${totalCollectedSum.toFixed(2)} QPEPE sold`;
+      } catch (error) {
+        console.error("Fehler beim Abrufen der Presale-Daten:", error);
+      }
+    }
   
     async function purchaseTokens() {
       if (!currentProvider) {
