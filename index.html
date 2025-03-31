@@ -265,14 +265,6 @@
       }
     }
   </style>
-  <!-- Twitter conversion tracking base code -->
-<script>
-!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
-},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
-a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
-twq('config','pa3tm');
-</script>
-<!-- End Twitter conversion tracking base code -->
 </head>
 <body>
   <!-- Mobile hint for MetaMask users -->
@@ -305,15 +297,10 @@ twq('config','pa3tm');
       </div>
       <div class="fund-info">
         <!-- Hier wird nur der gesamte Betrag angezeigt -->
-        <!-- Investierter USD-Betrag -->
-    <p>Total collected: <span id="total-collected">$0.00</span></p>
-
-    <!-- Gekaufte Tokenmenge -->
-    <p><span id="tokens-sold">0 QPEPE sold</span></p>
-
-    <p>Going to liquidity (85-90%): <span id="liquidity-flow">0</span></p>
-   </div>
-  <div id="metamaskQR"></div>
+        <p>Total collected: <span id="total-collected">0 QPEPE sold</span></p>
+        <p>Going to liquidity (85-90%): <span id="liquidity-flow">0</span></p>
+      </div>
+      <div id="metamaskQR"></div>
     </section>
     <!-- Stages Section -->
     <section class="stages">
@@ -678,60 +665,35 @@ twq('config','pa3tm');
       }
     ];
   
-    /async function getTokenPricesUSD() {
-  const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum,binancecoin,polygon&vs_currencies=usd");
-  const data = await res.json();
-  return {
-    ETH: data.ethereum.usd,
-    BNB: data.binancecoin.usd,
-    POL: data.polygon.usd
-  };
-}
-/ Diese Funktion summiert die gesammelten Beträge von ETH, BNB und POL und zeigt den Gesamtwert an.
-    
+    // Diese Funktion summiert die gesammelten Beträge von ETH, BNB und POL und zeigt den Gesamtwert an.
     async function updatePresaleFunds() {
-  try {
-    const prices = await getTokenPricesUSD(); // USD-Preise laden
-
-    const providers = {
-      ETH: new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com"),
-      BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
-      POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com")
-    };
-
-    const addresses = {
-      ETH: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
-      BNB: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
-      POL: "0x57f5e0DDa1ddfdbBa469bCD6b6f90db5dE4ce69A"
-    };
-
-    let totalNative = 0;
-    let totalUSD = 0;
-
-    for (const [chain, provider] of Object.entries(providers)) {
-      const contract = new ethers.Contract(addresses[chain], contractABI, provider);
-      const collectedWei = await contract.totalCollected();
-      const nativeAmount = parseFloat(ethers.utils.formatEther(collectedWei));
-      const usdValue = nativeAmount * prices[chain];
-
-      totalNative += nativeAmount;
-      totalUSD += usdValue;
+      try {
+        const providers = {
+          ETH: new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com"),
+          BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
+          POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com")
+        };
+  
+        const addresses = {
+          ETH: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
+          BNB: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798",
+          POL: "0x57f5e0DDa1ddfdbBa469bCD6b6f90db5dE4ce69A"
+        };
+  
+        let totalCollectedSum = 0;
+  
+        for (const [chain, provider] of Object.entries(providers)) {
+          const contract = new ethers.Contract(addresses[chain], contractABI, provider);
+          const collectedWei = await contract.totalCollected();
+          const collectedAmount = parseFloat(ethers.utils.formatEther(collectedWei));
+          totalCollectedSum += collectedAmount;
+        }
+  
+        document.getElementById("total-collected").textContent = `${totalCollectedSum.toFixed(2)} QPEPE sold`;
+      } catch (error) {
+        console.error("Fehler beim Abrufen der Presale-Daten:", error);
+      }
     }
-
-    // QPEPE: 1 Token = $0.0001 → also 1 USD = 10,000 Tokens
-    const tokensSold = totalUSD / 0.0001;
-
-    // USD anzeigen
-    document.getElementById("total-collected").textContent = `$${totalUSD.toFixed(2)} collected`;
-
-    // Tokenanzahl anzeigen (du kannst dafür z. B. ein zweites <span> oder <p> einfügen)
-    document.getElementById("tokens-sold").textContent = `${tokensSold.toLocaleString()} QPEPE sold`;
-  } catch (error) {
-    console.error("Fehler beim Abrufen der Presale-Daten:", error);
-  }
-}
-
-
   
     async function purchaseTokens() {
       if (!currentProvider) {
