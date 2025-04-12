@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="module" src="https://quantumpepe.github.io/walletconnect-dapp/assets/index-DYGs97aK.js"></script>
- <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuantumPepe Presale</title>
   <link rel="stylesheet" href="styles.css">
@@ -299,19 +298,12 @@ twq('config','pa3tm');
       <h2>The presale is Live!</h2>
       <p>Connect your MetaMask and claim your QuantumPepe!</p>
       <p class="token-price">Token Price: $0.0001 per Token</p>
-
-<div class="wallet-buttons">
-  <!-- MetaMask Button -->
-  <button id="metamaskButton" class="wallet-button" style="background: #00ff00; color: #000;">
-    Connect MetaMask
-  </button>
-
-  <!-- WalletConnect Button -->
-  <button id="connectButton" class="wallet-button" style="background: #00ffff; color: #000;">
-    WalletConnect
-  </button>
-</div>
- <div class="fund-info">
+      <div class="wallet-buttons">
+        <button id="metamaskButton" class="wallet-button" style="background: #00ff00; color: #000;">
+          Connect MetaMask
+        </button>
+      </div>
+      <div class="fund-info">
         <!-- Hier wird nur der gesamte Betrag angezeigt -->
         <p>Total collected: <span id="total-collected">0 QPEPE sold</span></p>
         <p>Going to liquidity (85-90%): <span id="liquidity-flow">0</span></p>
@@ -791,37 +783,4 @@ twq('config','pa3tm');
     };
   </script>
 </body>
-<script type="module">
-  import { EthereumProvider } from "https://cdn.skypack.dev/@walletconnect/ethereum-provider";
-
-  let wcProvider;
-
-  async function connectWalletConnect() {
-    const chainId = parseInt(document.getElementById("networkSelect").value) || 1;
-
-    try {
-      wcProvider = await EthereumProvider.init({
-        projectId: "67c42922f27ae3d6fbc049335afd66b7", // <- dein WalletConnect Project-ID
-        chains: [chainId],
-        optionalChains: [1, 56, 137],
-        showQrModal: true,
-        methods: ["eth_sendTransaction", "eth_sign", "personal_sign", "eth_signTypedData"],
-        events: ["chainChanged", "accountsChanged"]
-      });
-
-      await wcProvider.connect();
-
-      const accounts = await wcProvider.request({ method: "eth_accounts" });
-      const chain = await wcProvider.request({ method: "eth_chainId" });
-
-      alert(`✅ WalletConnect verbunden:\nAdresse: ${accounts[0]}\nChain-ID: ${chain}`);
-    } catch (error) {
-      console.error("❌ WalletConnect Verbindung fehlgeschlagen:", error);
-      alert("❌ Verbindung mit WalletConnect konnte nicht hergestellt werden.");
-    }
-  }
-   document.getElementById("connectButton").addEventListener("click", () => {
-    connectWalletConnect();
-  });
-</script>
 </html>
