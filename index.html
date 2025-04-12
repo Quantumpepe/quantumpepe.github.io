@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuantumPepe Presale</title>
+
+  <!-- WalletConnect + Web3 -->
+  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* --- Ihre vorhandenen Styles --- */
+    
     #contest-info h3 {
       color: #00ff00;
       text-shadow: 0 0 10px #00ff00;
@@ -788,36 +793,31 @@ twq('config','pa3tm');
 
 </script>
 </body>
-<script src="https://unpkg.com/@walletconnect/ethereum-provider@2.9.0/dist/umd/index.min.js"></script>
 <script>
-let wcProvider;
+  const provider = new WalletConnectProvider.default({
+    rpc: {
+      1: "https://rpc.ankr.com/eth",
+      56: "https://bsc-dataseed.binance.org/",
+      137: "https://polygon-rpc.com"
+    },
+    chainId: 1,
+    projectId: "67c42922f27ae3d6fbc049335afd6b7", // <- deine echte Project-ID von WalletConnect
+  });
 
-async function connectWalletConnect(chainId = "1") {
-  try {
-    wcProvider = await window.WalletConnectEthereumProvider.init({
-      projectId: "67c42922f27ae3d6f0bc049335adfd6b7",
-      chains: [parseInt(chainId)],
-      optionalChains: [1, 56, 137],
-      showQrModal: true,
-      methods: ["eth_sendTransaction", "eth_sign", "personal_sign", "eth_signTypedData"],
-      events: ["chainChanged", "accountsChanged"]
-    });
+  document.getElementById("walletconnectButton").addEventListener("click", async () => {
+    const selectedChain = parseInt(document.getElementById("networkSelect").value || "1");
+    provider.chainId = selectedChain;
 
-    await wcProvider.connect();
-
-    const accounts = await wcProvider.request({ method: "eth_accounts" });
-    const chain = await wcProvider.request({ method: "eth_chainId" });
-
-    alert(`✅ WalletConnect verbunden:\nAdresse: ${accounts[0]}\nChain-ID: ${chain}`);
-  } catch (error) {
-    console.error("WalletConnect Verbindung fehlgeschlagen:", error);
-    alert("❌ Verbindung abgebrochen oder fehlgeschlagen.");
-  }
-}
-
-document.getElementById("walletconnectButton").addEventListener("click", () => {
-  const chainId = document.getElementById("networkSelect")?.value || "1";
-  connectWalletConnect(chainId);
-});
+    try {
+      await provider.enable();
+      const web3 = new Web3(provider);
+      const accounts = await web3.eth.getAccounts();
+      const chainId = await web3.eth.getChainId();
+      alert("✅ Verbunden mit: " + accounts[0] + "\nChain ID: " + chainId);
+    } catch (err) {
+      console.error("❌ Verbindung fehlgeschlagen:", err);
+      alert("❌ WalletConnect Verbindung fehlgeschlagen.");
+    }
+  });
 </script>
 </html>
