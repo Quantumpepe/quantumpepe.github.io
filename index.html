@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuantumPepe Presale</title>
-
-  <!-- WalletConnect + Web3 -->
-  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
-
   <link rel="stylesheet" href="styles.css">
   <style>
-    
+    /* --- Ihre vorhandenen Styles --- */
     #contest-info h3 {
       color: #00ff00;
       text-shadow: 0 0 10px #00ff00;
@@ -304,14 +299,10 @@ twq('config','pa3tm');
       <p>Connect your MetaMask and claim your QuantumPepe!</p>
       <p class="token-price">Token Price: $0.0001 per Token</p>
       <div class="wallet-buttons">
-      <button id="metamaskButton" class="wallet-button" style="background: #00ff00; color: #000;">
-        Connect MetaMask
-      </button>
-      <button id="walletconnectButton" class="wallet-button" style="background: #007bff; color: white;">
-        WalletConnect
-      </button>
-     </div>
-
+        <button id="metamaskButton" class="wallet-button" style="background: #00ff00; color: #000;">
+          Connect MetaMask
+        </button>
+      </div>
       <div class="fund-info">
         <!-- Hier wird nur der gesamte Betrag angezeigt -->
         <p>Total collected: <span id="total-collected">0 QPEPE sold</span></p>
@@ -790,34 +781,6 @@ twq('config','pa3tm');
       await updatePresaleFunds();
       setInterval(updatePresaleFunds, 60000);
     };
-
-</script>
+  </script>
 </body>
-<script>
-  const provider = new WalletConnectProvider.default({
-    rpc: {
-      1: "https://rpc.ankr.com/eth",
-      56: "https://bsc-dataseed.binance.org/",
-      137: "https://polygon-rpc.com"
-    },
-    chainId: 1,
-    projectId: "67c42922f27ae3d6fbc049335afd6b7", // <- deine echte Project-ID von WalletConnect
-  });
-
-  document.getElementById("walletconnectButton").addEventListener("click", async () => {
-    const selectedChain = parseInt(document.getElementById("networkSelect").value || "1");
-    provider.chainId = selectedChain;
-
-    try {
-      await provider.enable();
-      const web3 = new Web3(provider);
-      const accounts = await web3.eth.getAccounts();
-      const chainId = await web3.eth.getChainId();
-      alert("✅ Verbunden mit: " + accounts[0] + "\nChain ID: " + chainId);
-    } catch (err) {
-      console.error("❌ Verbindung fehlgeschlagen:", err);
-      alert("❌ WalletConnect Verbindung fehlgeschlagen.");
-    }
-  });
-</script>
 </html>
