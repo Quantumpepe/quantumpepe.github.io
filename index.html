@@ -313,12 +313,11 @@ twq('config','pa3tm');
         
 
       </div>
-      <div class="fund-info">
-        <!-- Hier wird nur der gesamte Betrag angezeigt -->
-        <p>Total collected: <span id="total-collected">0 QPEPE sold</span></p>
-        <p>Going to liquidity (85-90%): <span id="liquidity-flow">0</span></p>
-      </div>
-      <div id="metamaskQR"></div>
+     <div class="fund-info">
+  <!-- Neuer Text für Kapitalanzeige -->
+  <p>Total collected value: <span id="capitalValue">$0.00</span></p>
+</div>
+
     </section>
     <!-- Stages Section -->
     <section class="stages">
@@ -792,5 +791,26 @@ twq('config','pa3tm');
       setInterval(updatePresaleFunds, 60000);
     };
   </script>
+<script>
+  // Funktion zur Berechnung des aktuellen Tokenpreises
+  function getCurrentPrice(qpepeSold) {
+    const basePrice = 0.0001;
+    const step = Math.floor(qpepeSold / 30000000);
+    return basePrice * Math.pow(1.08, step);
+  }
+
+  // Aktuell verkaufte Tokens (musst du ggf. dynamisch ersetzen)
+  const qpepeSold = 1118047.59;
+
+  // Kapitalwert berechnen
+  const currentPrice = getCurrentPrice(qpepeSold);
+  const totalUSD = qpepeSold * currentPrice;
+
+  // Im HTML anzeigen
+  document.addEventListener("DOMContentLoaded", () => {
+    const display = document.getElementById("capitalValue");
+    display.innerText = `$${totalUSD.toFixed(2)} USD`;
+  });
+</script>
 </body>
 </html>
