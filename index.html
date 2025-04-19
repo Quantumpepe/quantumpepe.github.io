@@ -318,8 +318,7 @@ twq('config','pa3tm');
         <p>Total collected: <span id="total-collected">0 QPEPE sold</span></p>
         
       </div>
-      <div id="metamaskQR"></div>
-    </section>
+   </section>
     <!-- Stages Section -->
     <section class="stages">
       <div class="stage">
@@ -781,11 +780,7 @@ twq('config','pa3tm');
     setInterval(updateCountdown, 1000);
     updateCountdown();
   
-    new QRCode(document.getElementById("metamaskQR"), {
-      text: "https://quantumpepe.github.io/",
-      width: 80,
-      height: 80
-    });
+    
   
     window.onload = async () => {
       await updatePresaleFunds();
