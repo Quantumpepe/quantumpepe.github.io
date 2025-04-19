@@ -793,45 +793,56 @@ twq('config','pa3tm');
     };
   </script>
 <script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.umd.min.js"></script>
+<script>
+  const contractABI = [
+    "function totalCollected() view returns (uint256)"
+  ];
 
+   contractAddresses = {
+    ETH: "0x7E20F6A03065372880D41B0e5a49c2A201DC8798",   // Ethereum Mainnet
+    BNB: "0x7E20F6A03065372880D41B0e5a49c2A201DC8798",   // Binance Smart Chain
+    POL: "0x57f5e0Dda1ddfdbBa469bCDb6bf90db5dE4ce69A"    // Polygon
+  };
 
+  const providers = {
+    ETH: new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com"),
+    BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
+    POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com/")
+  };
 
-  contractAddresses = {
-      1: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798", // Ethereum Mainnet
-      137: "0x57f5e0DDa1ddfdbBa469bCD6b6f90db5dE4ce69A", // Polygon
-      56: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798"  // Binance Smart Chain
-    };
+  async function updatePresaleFunds() {
+    try {
+      let totalUSD = 0;
 
-const abi = [
-  "function totalCollected() view returns (uint256)"
-];
+      for (const chain in contractAddresses) {
+        const address = contractAddresses[chain];
+        const provider = providers[chain];
+        const contract = new ethers.Contract(address, contractABI, provider);
 
-async function updateCollectedAmount() {
-  try {
-    const network = await provider.getNetwork();
-    const chainId = Number(network.chainId);
-    const address = contractAddresses[chainId];
+        const raw = await contract.totalCollected();
+        const amount = Number(ethers.formatUnits(raw, 18));
 
-    if (!address) {
-      console.warn("Nicht unterstützte Chain-ID:", chainId);
-      return;
+        totalUSD += amount;
+      }
+
+      const display = document.getElementById("capitalValue");
+      if (display) {
+        display.textContent = `$${totalUSD.toFixed(2)} USD`;
+      }
+    } catch (err) {
+      console.error("Fehler beim Abrufen der Presale-Daten:", err);
     }
-
-    const contract = new ethers.Contract(address, abi, provider);
-    const rawCollected = await contract.totalCollected();
-    const collectedInUSD = Number(ethers.formatUnits(rawCollected, 18));
-
-    const display = document.getElementById("capitalValue");
-    display.innerText = `$${collectedInUSD.toFixed(2)} USD`;
-  } catch (err) {
-    console.error("Fehler beim Abrufen:", err);
   }
-}
 
-window.addEventListener("DOMContentLoaded", () => {
-  updateCollectedAmount();
-  setInterval(updateCollectedAmount, 10000); // Alle 10 Sekunden aktualisieren
-});
+  window.addEventListener("DOMContentLoaded", () => {
+    updatePresaleFunds();
+    setInterval(updatePresaleFunds, 10000); // alle 10 Sekunden aktualisieren
+  });
 </script>
+
+
+
+  
 </body>
 </html>
