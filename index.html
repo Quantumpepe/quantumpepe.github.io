@@ -792,53 +792,45 @@ twq('config','pa3tm');
       setInterval(updatePresaleFunds, 60000);
     };
   </script>
-<script type="module">
-import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.6.2/+esm";
+<script>
+const provider = new ethers.BrowserProvider(window.ethereum);
 
 const contractAddresses = {
-  1: "0x7E02f6fA0306537280BD41B0e5a49c2A021DC8798",    // Ethereum
-  56: "0x7E02f6fA0306537280BD41B0e5a49c2A021DC8798",   // BNB
-  137: "0x57f5e0DDa1dfdfdBa469bCDb6Bf690db5dE4ce69A",  // Polygon
+  1:  "0x7E20f6A0306537280BD41B0e5a49c2A021DC8798", // Ethereum
+  56: "0x7E20f6A0306537280BD41B0e5a49c2A021DC8798", // BNB (korrekte Checksum nötig)
+  137:"0x57f5e0Dda1dfdfdbBa469bCDb6bf690db5dE4ce69A" // Polygon
 };
 
-const contractABI = [
-  "function totalCollected() view returns (uint256)",
+const abi = [
+  "function totalCollected() view returns (uint256)"
 ];
 
-async function updateCapitalValue() {
+async function updateCollectedAmount() {
   try {
-    const provider = new ethers.BrowserProvider(window.ethereum);
     const network = await provider.getNetwork();
     const chainId = Number(network.chainId);
-    const contractAddress = contractAddresses[chainId];
+    const address = contractAddresses[chainId];
 
-    if (!contractAddress) {
-      console.error("Unsupported chain:", chainId);
+    if (!address) {
+      console.warn("Nicht unterstützte Chain-ID:", chainId);
       return;
     }
 
-    const signer = await provider.getSigner();
-    const contract = new ethers.Contract(contractAddress, contractABI, signer);
+    const contract = new ethers.Contract(address, abi, provider);
+    const rawCollected = await contract.totalCollected();
+    const collectedInUSD = Number(ethers.formatUnits(rawCollected, 18));
 
-    const totalCollected = await contract.totalCollected();
-    const formattedTokens = Number(ethers.formatUnits(totalCollected, 18));
-
-    // Preis pro Token berechnen (mit 8% Anstieg alle 30B Tokens)
-    const basePrice = 0.0001;
-    const step = Math.floor(formattedTokens / 30000000);
-    const currentPrice = basePrice * Math.pow(1.08, step);
-    const totalUSD = formattedTokens * currentPrice;
-
-    // Anzeige aktualisieren
     const display = document.getElementById("capitalValue");
-    if (display) display.innerText = `${totalUSD.toFixed(2)} USD`;
+    display.innerText = `$${collectedInUSD.toFixed(2)} USD`;
   } catch (err) {
-    console.error("Error fetching capital value:", err);
+    console.error("Fehler beim Abrufen:", err);
   }
 }
 
-window.addEventListener("DOMContentLoaded", updateCapitalValue);
+window.addEventListener("DOMContentLoaded", () => {
+  updateCollectedAmount();
+  setInterval(updateCollectedAmount, 10000); // Alle 10 Sekunden aktualisieren
+});
 </script>
-
 </body>
 </html>
