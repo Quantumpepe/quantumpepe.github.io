@@ -791,26 +791,53 @@ twq('config','pa3tm');
       setInterval(updatePresaleFunds, 60000);
     };
   </script>
-<script>
-  // Funktion zur Berechnung des aktuellen Tokenpreises
-  function getCurrentPrice(qpepeSold) {
+<script type="module">
+import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.6.2/+esm";
+
+const contractAddresses = {
+  1: "0x7E02f6fA0306537280BD41B0e5a49c2A021DC8798",    // Ethereum
+  56: "0x7E02f6fA0306537280BD41B0e5a49c2A021DC8798",   // BNB
+  137: "0x57f5e0DDa1dfdfdBa469bCDb6Bf690db5dE4ce69A",  // Polygon
+};
+
+const contractABI = [
+  "function totalCollected() view returns (uint256)",
+];
+
+async function updateCapitalValue() {
+  try {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const network = await provider.getNetwork();
+    const chainId = Number(network.chainId);
+    const contractAddress = contractAddresses[chainId];
+
+    if (!contractAddress) {
+      console.error("Unsupported chain:", chainId);
+      return;
+    }
+
+    const signer = await provider.getSigner();
+    const contract = new ethers.Contract(contractAddress, contractABI, signer);
+
+    const totalCollected = await contract.totalCollected();
+    const formattedTokens = Number(ethers.formatUnits(totalCollected, 18));
+
+    // Preis pro Token berechnen (mit 8% Anstieg alle 30B Tokens)
     const basePrice = 0.0001;
-    const step = Math.floor(qpepeSold / 30000000);
-    return basePrice * Math.pow(1.08, step);
-  }
+    const step = Math.floor(formattedTokens / 30000000);
+    const currentPrice = basePrice * Math.pow(1.08, step);
+    const totalUSD = formattedTokens * currentPrice;
 
-  // Aktuell verkaufte Tokens (musst du ggf. dynamisch ersetzen)
-  const qpepeSold = 1118047.59;
-
-  // Kapitalwert berechnen
-  const currentPrice = getCurrentPrice(qpepeSold);
-  const totalUSD = qpepeSold * currentPrice;
-
-  // Im HTML anzeigen
-  document.addEventListener("DOMContentLoaded", () => {
+    // Anzeige aktualisieren
     const display = document.getElementById("capitalValue");
-    display.innerText = `$${totalUSD.toFixed(2)} USD`;
-  });
+    if (display) display.innerText = `${totalUSD.toFixed(2)} USD`;
+  } catch (err) {
+    console.error("Error fetching capital value:", err);
+  }
+}
+
+window.addEventListener("DOMContentLoaded", updateCapitalValue);
 </script>
+
 </body>
 </html>
