@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuantumPepe Presale</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.umd.min.js"></script>
   <style>
     /* --- Ihre vorhandenen Styles --- */
     #contest-info h3 {
@@ -278,7 +277,7 @@ twq('config','pa3tm');
 <body>
   <!-- Mobile hint for MetaMask users -->
   <div id="mobile-hint">
-  
+    For proper wallet interaction on mobile, please open this site within the MetaMask in-app browser.
   </div>
   <header>
     <h1 class="ai-title">QuantumPepe is here!</h1>
@@ -314,11 +313,11 @@ twq('config','pa3tm');
         
 
       </div>
-     <div class="fund-info">
-  <!-- Neuer Text für Kapitalanzeige -->
-  <p>Total collected value: <span id="capitalValue">$0.00</span></p>
-</div>
-
+      <div class="fund-info">
+        <!-- Hier wird nur der gesamte Betrag angezeigt -->
+        <p>Total collected: <span id="total-collected">0 QPEPE sold</span></p>
+      </div>
+      
     </section>
     <!-- Stages Section -->
     <section class="stages">
@@ -476,7 +475,7 @@ twq('config','pa3tm');
     }
   
     // Contract-Adressen pro Netzwerk (für den Kauf)
-     const contractAddresses = {
+    const contractAddresses = {
       1: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798", // Ethereum Mainnet
       137: "0x57f5e0DDa1ddfdbBa469bCD6b6f90db5dE4ce69A", // Polygon
       56: "0x7E0A6F03060357828DD41B0e5a49c2A201DC8798"  // Binance Smart Chain
@@ -792,56 +791,5 @@ twq('config','pa3tm');
       setInterval(updatePresaleFunds, 60000);
     };
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.umd.min.js"></script>
-<script>
-const contractABI = [
-  "function totalCollected() view returns (uint256)"
-];
-
-const contractAddresses = {
-  ETH: "0x7E0AF6A0306537828DD41B0e5a49c2A201DC8798",  // Ethereum
-  BNB: "0x7E0AF6A0306537828DD41B0e5a49c2A201DC8798",  // Binance Smart Chain
-  POL: "0x57f5e0DDa1ddfdbBa469bCDb6bf90db5dE4ce69A"   // Polygon
-};
-
-const providers = {
-  ETH: new ethers.JsonRpcProvider("https://eth.llamarpc.com"),
-  BNB: new ethers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
-  POL: new ethers.JsonRpcProvider("https://polygon-rpc.com")
-};
-
-async function updatePresaleFunds() {
-  try {
-    let totalUSD = 0;
-
-    for (const chain in contractAddresses) {
-      const address = contractAddresses[chain];
-      const provider = providers[chain];
-      const contract = new ethers.Contract(address, contractABI, provider);
-
-      const raw = await contract.totalCollected();
-      const amount = Number(ethers.formatUnits(raw, 18));
-      totalUSD += amount;
-    }
-
-    const display = document.getElementById("capitalValue");
-    if (display) {
-      display.textContent = `$${totalUSD.toFixed(2)} USD`;
-    }
-  } catch (err) {
-    console.error("Fehler beim Abrufen der Presale-Daten:", err);
-  }
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  updatePresaleFunds();
-  setInterval(updatePresaleFunds, 10000); // alle 10 Sekunden aktualisieren
-});
-</script>
-
-
-
-
-  
 </body>
 </html>
