@@ -792,52 +792,53 @@ twq('config','pa3tm');
       setInterval(updatePresaleFunds, 60000);
     };
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.umd.min.js"></script>
 <script>
-  
-    "function totalCollected() view returns (uint256)"
-  
+const contractABI = [
+  "function totalCollected() view returns (uint256)"
+];
 
-   contractAddresses = {
-    ETH: "0x7E20F6A03065372880D41B0e5a49c2A201DC8798",   // Ethereum Mainnet
-    BNB: "0x7E20F6A03065372880D41B0e5a49c2A201DC8798",   // Binance Smart Chain
-    POL: "0x57f5e0Dda1ddfdbBa469bCDb6bf90db5dE4ce69A"    // Polygon
-  };
+const contractAddresses = {
+  ETH: "0x7E0AF6A0306537828DD41B0e5a49c2A201DC8798",  // Ethereum
+  BNB: "0x7E0AF6A0306537828DD41B0e5a49c2A201DC8798",  // Binance Smart Chain
+  POL: "0x57f5e0DDa1ddfdbBa469bCDb6bf90db5dE4ce69A"   // Polygon
+};
 
-  const providers = {
-    ETH: new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com"),
-    BNB: new ethers.providers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
-    POL: new ethers.providers.JsonRpcProvider("https://polygon-rpc.com/")
-  };
+const providers = {
+  ETH: new ethers.JsonRpcProvider("https://eth.llamarpc.com"),
+  BNB: new ethers.JsonRpcProvider("https://bsc-dataseed1.binance.org/"),
+  POL: new ethers.JsonRpcProvider("https://polygon-rpc.com")
+};
 
-  async function updatePresaleFunds() {
-    try {
-      let totalUSD = 0;
+async function updatePresaleFunds() {
+  try {
+    let totalUSD = 0;
 
-      for (const chain in contractAddresses) {
-        const address = contractAddresses[chain];
-        const provider = providers[chain];
-        const contract = new ethers.Contract(address, contractABI, provider);
+    for (const chain in contractAddresses) {
+      const address = contractAddresses[chain];
+      const provider = providers[chain];
+      const contract = new ethers.Contract(address, contractABI, provider);
 
-        const raw = await contract.totalCollected();
-        const amount = Number(ethers.formatUnits(raw, 18));
-
-        totalUSD += amount;
-      }
-
-      const display = document.getElementById("capitalValue");
-      if (display) {
-        display.textContent = `$${totalUSD.toFixed(2)} USD`;
-      }
-    } catch (err) {
-      console.error("Fehler beim Abrufen der Presale-Daten:", err);
+      const raw = await contract.totalCollected();
+      const amount = Number(ethers.formatUnits(raw, 18));
+      totalUSD += amount;
     }
-  }
 
-  window.addEventListener("DOMContentLoaded", () => {
-    updatePresaleFunds();
-    setInterval(updatePresaleFunds, 10000); // alle 10 Sekunden aktualisieren
-  });
+    const display = document.getElementById("capitalValue");
+    if (display) {
+      display.textContent = `$${totalUSD.toFixed(2)} USD`;
+    }
+  } catch (err) {
+    console.error("Fehler beim Abrufen der Presale-Daten:", err);
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  updatePresaleFunds();
+  setInterval(updatePresaleFunds, 10000); // alle 10 Sekunden aktualisieren
+});
 </script>
+
 
 
 
